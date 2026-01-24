@@ -39,6 +39,15 @@ public final class Constants
     public static final double WHEEL_LOCK_TIME = 10; // seconds
   }
 
+  public static final class ClimbingConstants{
+    public static final int kRightClimbingMotorPort = 20;
+    public static final int kLeftClimbingMotorPort = 67;
+    public static final int kForwardSoftLimitRotations = 78;
+    public static final int kReverseSoftLimitRotations = 0;
+    public static final int maxClimbingHeight = 78;
+
+  }
+
   public static class OperatorConstants
   {
 
