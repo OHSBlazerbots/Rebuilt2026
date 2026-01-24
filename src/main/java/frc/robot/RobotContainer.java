@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+import frc.robot.subsystems.ClimbingSubsystem;
+
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -21,7 +24,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
 
@@ -32,12 +34,13 @@ import swervelib.SwerveInputStream;
  */
 public class RobotContainer
 {
-
-  // Replace with CommandPS4Controller or CommandJoystick if needed
+  // private final CommandXboxController m_DrivController;
   final         CommandXboxController driverXbox = new CommandXboxController(0);
+  final         CommandXboxController codriverXbox = new CommandXboxController(1);
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem       drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                                 "swerve/neo"));
+  private final ClimbingSubsystem m_ClimbingSubsystem;
 
   // Establish a Sendable Chooser that will be able to be sent to the SmartDashboard, allowing selection of desired auto
   private final SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -100,6 +103,7 @@ public class RobotContainer
    */
   public RobotContainer()
   {
+    m_ClimbingSubsystem = new ClimbingSubsystem();
     // Configure the trigger bindings
     configureBindings();
     DriverStation.silenceJoystickConnectionWarning(true);
@@ -184,6 +188,23 @@ public class RobotContainer
       driverXbox.leftBumper().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
       driverXbox.rightBumper().onTrue(Commands.none());
     }
+
+    codriverXbox.y()
+      .onTrue(Commands.runOnce(() -> m_ClimbingSubsystem.setClimbingVelocity(67)))
+      .onFalse(Commands.runOnce(() -> m_ClimbingSubsystem.setClimbingVelocity(0)));
+
+    codriverXbox.a()
+      .onTrue(Commands.runOnce(() -> m_ClimbingSubsystem.setClimbingVelocity(-67)))
+      .onFalse(Commands.runOnce(() -> m_ClimbingSubsystem.setClimbingVelocity(0)));
+    
+    codriverXbox.x()
+      .onTrue(Commands.runOnce(() -> m_ClimbingSubsystem.setClimbingPosition(67)))
+      .onFalse(Commands.none());
+
+    codriverXbox.b()
+      .onTrue(Commands.runOnce(() -> m_ClimbingSubsystem.setClimbingPosition(-67)))
+      .onFalse(Commands.none());
+   
 
   }
 
