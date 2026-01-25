@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase.ControlType;
@@ -111,14 +110,13 @@ public class IntakeSubsystem extends SubsystemBase {
                 .outputRange(-1, 1, ClosedLoopSlot.kSlot1);
 
         rollerMotor.configure(rollerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        pivotMotor.configure(rollerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        pivotMotor.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         pivotEncoder.setPosition(0);
-        // SmartDashboard.setDefaultBoolean("Intake/direction", true);
-        // SmartDashboard.setDefaultNumber("Intake/Target Position", 0);
-        // SmartDashboard.setDefaultNumber("Intake/Target Velocity", 0);
-        // SmartDashboard.setDefaultBoolean("Intake/Control Mode", false);
-        // SmartDashboard.setDefaultBoolean("Intake/Reset Encoder", false);
+        SmartDashboard.setDefaultBoolean("Intake/Control Mode", false); 
+        SmartDashboard.setDefaultNumber("Intake/Target Position", 0);
+        SmartDashboard.setDefaultNumber("Intake/Target Velocity", 0);
+        SmartDashboard.setDefaultBoolean("Intake/Reset Encoder", false);
     }
 
     public void setPivotVelocity(double targetVelocity) {
@@ -133,24 +131,21 @@ public class IntakeSubsystem extends SubsystemBase {
         rollerController.setReference(targetVelocity, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
     }
 
-  //  @Override
-    // public void periodic() {
-    //     // Display data from SPARK onto the dashboard
-    //     SmartDashboard.putBoolean("Intake/Forward Limit Reached", forwardLimitSwitch.isPressed());
-    //     SmartDashboard.putNumber("Intake/Applied Output", rollerMotor.getAppliedOutput());
-    //     SmartDashboard.putNumber("Intake/Position", encoder.getPosition());
-
-    //     SmartDashboard.putNumber("Intake/PrimaryMotor set output", rollerMotor.get());
-
-    //     SmartDashboard.putNumber("Intake/Actual Position", encoder.getPosition());
-    //     SmartDashboard.putNumber("Elevator/Actual Velocity", encoder.getVelocity());
-
-    //     if (SmartDashboard.getBoolean("Intake/Reset Encoder", false)) {
-    //         SmartDashboard.putBoolean("Intake/Reset Encoder", false);
-    //         // Reset the encoder position to 0
-    //         encoder.setPosition(0);
-    //     }
-    // }
+   @Override
+    public void periodic() {
+        // Display data from SPARK onto the dashboard
+        SmartDashboard.putBoolean("Intake/Pivot Forward Limit", forwardLimitSwitch.isPressed());
+        SmartDashboard.putBoolean("Intake/Pivot Reverse Limit", reverseLimitSwitch.isPressed());
+        SmartDashboard.putNumber("Intake/Pivot Position", pivotEncoder.getPosition());
+        SmartDashboard.putNumber("Intake/Pivot Velocity", pivotEncoder.getVelocity());
+        SmartDashboard.putNumber("Intake/Pivot Applied Output", pivotMotor.getAppliedOutput());
+        SmartDashboard.putNumber("Intake/Roller Velocity", rollerEncoder.getVelocity());
+        SmartDashboard.putNumber("Intake/Roller Applied Output", rollerMotor.getAppliedOutput());
+        if (SmartDashboard.getBoolean("Intake/Reset Encoder", false)) {
+                pivotEncoder.setPosition(0);
+                SmartDashboard.putBoolean("Intake/Reset Encoder", false);
+        }
+    }
 
 }    
     
