@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -21,7 +24,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
 
@@ -35,6 +37,10 @@ public class RobotContainer
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   final         CommandXboxController driverXbox = new CommandXboxController(0);
+  final         CommandXboxController codriverXbox = new CommandXboxController(1);
+
+  private final IntakeSubsystem m_IntakeSubsystem;
+
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem       drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                                 "swerve/neo"));
@@ -100,6 +106,7 @@ public class RobotContainer
    */
   public RobotContainer()
   {
+    m_IntakeSubsystem = new IntakeSubsystem();
     // Configure the trigger bindings
     configureBindings();
     DriverStation.silenceJoystickConnectionWarning(true);
@@ -184,6 +191,30 @@ public class RobotContainer
       driverXbox.leftBumper().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
       driverXbox.rightBumper().onTrue(Commands.none());
     }
+
+    codriverXbox.povRight()
+      .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(67)))
+      .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(0)));
+
+    codriverXbox.povLeft()
+      .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(-67)))
+      .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(0)));
+    
+    codriverXbox.povUp()
+      .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setPivotPosition(67)))
+      .onFalse(Commands.none());
+
+    codriverXbox.povDown()
+      .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setPivotPosition(-67)))
+      .onFalse(Commands.none());
+    
+    codriverXbox.rightBumper()
+      .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setRollerVelocity(67)))
+      .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.setRollerVelocity(0)));
+
+    codriverXbox.leftBumper()
+      .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setRollerVelocity(-67)))
+      .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.setRollerVelocity(0)));
 
   }
 

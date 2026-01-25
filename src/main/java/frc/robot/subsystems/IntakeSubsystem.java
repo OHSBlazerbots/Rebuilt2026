@@ -1,4 +1,4 @@
-package frc.robot.subsystems.swervedrive;
+package frc.robot.subsystems;
 
 
 import com.revrobotics.RelativeEncoder;
@@ -121,14 +121,17 @@ public class IntakeSubsystem extends SubsystemBase {
         // SmartDashboard.setDefaultBoolean("Intake/Reset Encoder", false);
     }
 
-    // public void setIntakeVelocity(double targetVelocity) {
-    //     rollerController.setReference(targetVelocity, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
-    //     System.out.println("trying to set motor to speed " + targetVelocity);
-    // }
+    public void setPivotVelocity(double targetVelocity) {
+        pivotController.setReference(targetVelocity, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
+    }
 
-    // public void setIntakePosition(double targetPosition) {
-    //     rollerController.setReference(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
-    // }
+    public void setPivotPosition(double targetPosition) {
+        pivotController.setReference(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
+    }
+    
+    public void setRollerVelocity(double targetVelocity) {
+        rollerController.setReference(targetVelocity, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
+    }
 
   //  @Override
     // public void periodic() {
