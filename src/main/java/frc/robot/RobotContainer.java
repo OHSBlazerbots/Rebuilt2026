@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ClimbingSubsystem;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -34,8 +35,7 @@ import swervelib.SwerveInputStream;
  */
 public class RobotContainer
 {
-
-  // Replace with CommandPS4Controller or CommandJoystick if needed
+  // private final CommandXboxController m_DrivController;
   final         CommandXboxController driverXbox = new CommandXboxController(0);
   final         CommandXboxController codriverXbox = new CommandXboxController(1);
 
@@ -44,6 +44,7 @@ public class RobotContainer
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem       drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                                 "swerve/neo"));
+  private final ClimbingSubsystem m_ClimbingSubsystem;
 
   // Establish a Sendable Chooser that will be able to be sent to the SmartDashboard, allowing selection of desired auto
   private final SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -107,6 +108,7 @@ public class RobotContainer
   public RobotContainer()
   {
     m_IntakeSubsystem = new IntakeSubsystem();
+    m_ClimbingSubsystem = new ClimbingSubsystem();
     // Configure the trigger bindings
     configureBindings();
     DriverStation.silenceJoystickConnectionWarning(true);
@@ -215,6 +217,22 @@ public class RobotContainer
     codriverXbox.leftBumper()
       .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setRollerVelocity(-67)))
       .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.setRollerVelocity(0)));
+    codriverXbox.y()
+      .onTrue(Commands.runOnce(() -> m_ClimbingSubsystem.setClimbingVelocity(67)))
+      .onFalse(Commands.runOnce(() -> m_ClimbingSubsystem.setClimbingVelocity(0)));
+
+    codriverXbox.a()
+      .onTrue(Commands.runOnce(() -> m_ClimbingSubsystem.setClimbingVelocity(-67)))
+      .onFalse(Commands.runOnce(() -> m_ClimbingSubsystem.setClimbingVelocity(0)));
+    
+    codriverXbox.x()
+      .onTrue(Commands.runOnce(() -> m_ClimbingSubsystem.setClimbingPosition(67)))
+      .onFalse(Commands.none());
+
+    codriverXbox.b()
+      .onTrue(Commands.runOnce(() -> m_ClimbingSubsystem.setClimbingPosition(-67)))
+      .onFalse(Commands.none());
+   
 
   }
 
