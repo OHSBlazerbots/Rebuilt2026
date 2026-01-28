@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ClimbingSubsystem;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -37,6 +38,9 @@ public class RobotContainer
   // private final CommandXboxController m_DrivController;
   final         CommandXboxController driverXbox = new CommandXboxController(0);
   final         CommandXboxController codriverXbox = new CommandXboxController(1);
+
+  private final IntakeSubsystem m_IntakeSubsystem;
+
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem       drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                                 "swerve/neo"));
@@ -103,6 +107,7 @@ public class RobotContainer
    */
   public RobotContainer()
   {
+    m_IntakeSubsystem = new IntakeSubsystem();
     m_ClimbingSubsystem = new ClimbingSubsystem();
     // Configure the trigger bindings
     configureBindings();
@@ -189,6 +194,29 @@ public class RobotContainer
       driverXbox.rightBumper().onTrue(Commands.none());
     }
 
+    codriverXbox.povRight()
+      .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(67)))
+      .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(0)));
+
+    codriverXbox.povLeft()
+      .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(-67)))
+      .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(0)));
+    
+    codriverXbox.povUp()
+      .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setPivotPosition(67)))
+      .onFalse(Commands.none());
+
+    codriverXbox.povDown()
+      .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setPivotPosition(-67)))
+      .onFalse(Commands.none());
+    
+    codriverXbox.rightBumper()
+      .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setRollerVelocity(67)))
+      .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.setRollerVelocity(0)));
+
+    codriverXbox.leftBumper()
+      .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setRollerVelocity(-67)))
+      .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.setRollerVelocity(0)));
     codriverXbox.y()
       .onTrue(Commands.runOnce(() -> m_ClimbingSubsystem.setClimbingVelocity(67)))
       .onFalse(Commands.runOnce(() -> m_ClimbingSubsystem.setClimbingVelocity(0)));
