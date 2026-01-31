@@ -22,6 +22,10 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
+import limelight.Limelight;
+import limelight.networktables.LimelightPoseEstimator;
+import limelight.networktables.LimelightSettings.LEDMode;
+import limelight.networktables.PoseEstimate;
 import swervelib.SwerveController;
 import swervelib.SwerveDrive;
 import swervelib.SwerveDriveTest;
@@ -31,14 +35,42 @@ import swervelib.parser.SwerveDriveConfiguration;
 import swervelib.parser.SwerveParser;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
-
+import edu.wpi.first.math.geometry.Pose3d;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelPositions;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import java.util.Optional;
+import java.util.function.DoubleSupplier;
+import limelight.Limelight;
+import limelight.networktables.AngularVelocity3d;
+import limelight.networktables.LimelightPoseEstimator;
+import limelight.networktables.LimelightResults;
+import limelight.networktables.LimelightSettings.LEDMode;
+import limelight.networktables.Orientation3d;
+import limelight.networktables.PoseEstimate;
+import limelight.networktables.LimelightPoseEstimator.EstimationMode;
+import static edu.wpi.first.units.Units.DegreesPerSecond;
+import static edu.wpi.first.units.Units.Inches;
+import static edu.wpi.first.units.Units.Meters;
+import limelight.networktables.target.pipeline.NeuralClassifier;
 public class SwerveSubsystem extends SubsystemBase
 {
   /**
    * Swerve drive object.
    */
   private final SwerveDrive swerveDrive;
-
+  Limelight limelight; 
+  LimelightPoseEstimator poseEstimator;
+  Pose3d cameraOffset = new Pose3d(Inches.of(5).in(Meters), Inches.of(5).in(Meters), Inches.of(5).in(Meters), Rotation3d.kZero);//TO DO change values
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
    *
@@ -64,6 +96,7 @@ public class SwerveSubsystem extends SubsystemBase
     {
       throw new RuntimeException(e);
     }
+   
     swerveDrive.setHeadingCorrection(false); // Heading correction should only be used while controlling the robot via angle.
     swerveDrive.setCosineCompensator(false);//!SwerveDriveTelemetry.isSimulation); // Disables cosine compensation for simulations since it causes discrepancies not seen in real life.
     swerveDrive.setAngularVelocityCompensation(true,
@@ -71,7 +104,7 @@ public class SwerveSubsystem extends SubsystemBase
                                                0.1); //Correct for skew that gets worse as angular velocity increases. Start with a coefficient of 0.1.
     swerveDrive.setModuleEncoderAutoSynchronize(false,
                                                 1); // Enable if you want to resynchronize your absolute encoders and motor encoders periodically when they are not moving.
-    // swerveDrive.pushOffsetsToEncoders(); // Set the absolute encoder to be used over the internal encoder and push the offsets onto it. Throws warning if not possible
+      // swerveDrive.pushOffsetsToEncoders(); // Set the absolute encoder to be used over the internal encoder and push the offsets onto it. Throws warning if not possible
   }
 
   /**
@@ -86,12 +119,24 @@ public class SwerveSubsystem extends SubsystemBase
                                   controllerCfg,
                                   Constants.MAX_SPEED,
                                   new Pose2d(new Translation2d(Meter.of(2), Meter.of(0)),
-                                             Rotation2d.fromDegrees(0)));
+    
+                                  Rotation2d.fromDegrees(0)));
+    limelight = new Limelight("limelight");
+    limelight.getSettings()
+                .withLimelightLEDMode(LEDMode.PipelineControl)
+                .withCameraOffset(cameraOffset)
+                .save(); 
   }
 
   @Override
   public void periodic()
   {
+    Optional<PoseEstimate> visionEstimate = poseEstimator.getPoseEstimate();
+// If the pose is present
+  visionEstimate.ifPresent((PoseEstimate poseEstimate) -> {
+    // Add it to the pose estimator.
+      swerveDrive.addVisionMeasurement(poseEstimate.pose.toPose2d(), poseEstimate.timestampSeconds);
+  });
   }
 
   @Override
@@ -322,6 +367,7 @@ public class SwerveSubsystem extends SubsystemBase
    */
   public void zeroGyro()
   {
+   
     swerveDrive.zeroGyro();
   }
 
