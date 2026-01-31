@@ -4,6 +4,7 @@
 
 package frc.robot;
 import frc.robot.subsystems.ClimbingSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -39,6 +40,7 @@ public class RobotContainer
   private final SwerveSubsystem       drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                                 "swerve/neo"));
   private final ClimbingSubsystem m_ClimbingSubsystem;
+  private final ShooterSubsystem m_ShooterSubsystem;
 
   // Establish a Sendable Chooser that will be able to be sent to the SmartDashboard, allowing selection of desired auto
   private final SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -102,6 +104,7 @@ public class RobotContainer
   public RobotContainer()
   {
     m_ClimbingSubsystem = new ClimbingSubsystem();
+    m_ShooterSubsystem =  new ShooterSubsystem();
     // Configure the trigger bindings
     configureBindings();
     DriverStation.silenceJoystickConnectionWarning(true);

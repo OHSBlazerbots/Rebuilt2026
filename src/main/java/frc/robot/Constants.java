@@ -45,7 +45,11 @@ public final class Constants
     public static final int kForwardSoftLimitRotations = 78;
     public static final int kReverseSoftLimitRotations = 0;
     public static final int maxClimbingHeight = 78;
+  }
 
+  public static final class ShooterConstants{
+    public static final int kCollumnMotorPort = 67;
+    public static final int kShooterMotorPort = 67;
   }
 
   public static class OperatorConstants
