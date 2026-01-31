@@ -64,9 +64,9 @@ public class IntakeSubsystem extends SubsystemBase {
                 .reverseLimitSwitchEnabled(true);
         
         pivotConfig.softLimit
-                .forwardSoftLimit(ClimbingConstants.kForwardSoftLimitRotations)
+                .forwardSoftLimit(IntakeConstants.pivotForwardSoftLimitRotations)
                 .forwardSoftLimitEnabled(true)
-                .reverseSoftLimit(ClimbingConstants.kReverseSoftLimitRotations)
+                .reverseSoftLimit(IntakeConstants.pivotReverseSoftLimitRotations)
                 .reverseSoftLimitEnabled(true);
         
 
@@ -117,10 +117,12 @@ public class IntakeSubsystem extends SubsystemBase {
                 .outputRange(-1, 1, ClosedLoopSlot.kSlot1);
 
         rollerMotor.configure(rollerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        
+        pivotMotor.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+        pivotEncoder.setPosition(0);
         SmartDashboard.setDefaultNumber("Intake/Pivot/Position", 0);
         SmartDashboard.setDefaultNumber("Intake/Pivot/Velocity", 0);
-        SmartDashboard.setDefaultBoolean("Intake/Reset Encoder", false);
+        SmartDashboard.setDefaultBoolean("Intake/Pivot/Reset Encoder", false);
         SmartDashboard.setDefaultNumber("Intake/Roller/Velocity", 0);
     }
 
@@ -139,16 +141,16 @@ public class IntakeSubsystem extends SubsystemBase {
    @Override
     public void periodic() {
         // Display data from SPARK onto the dashboard
-        SmartDashboard.putBoolean("Intake/Pivot Forward Limit", forwardLimitSwitch.isPressed());
-        SmartDashboard.putBoolean("Intake/Pivot Reverse Limit", reverseLimitSwitch.isPressed());
+        SmartDashboard.putBoolean("Intake/Pivot/Forward Limit", forwardLimitSwitch.isPressed());
+        SmartDashboard.putBoolean("Intake/Pivot/Reverse Limit", reverseLimitSwitch.isPressed());
         SmartDashboard.putNumber("Intake/Pivot/Position", pivotEncoder.getPosition());
         SmartDashboard.putNumber("Intake/Pivot/Velocity", pivotEncoder.getVelocity());
-        SmartDashboard.putNumber("Intake/Pivot Applied Output", pivotMotor.getAppliedOutput());
+        SmartDashboard.putNumber("Intake/Pivot/Applied Output", pivotMotor.getAppliedOutput());
         SmartDashboard.putNumber("Intake/Roller/Velocity", rollerEncoder.getVelocity());
-        SmartDashboard.putNumber("Intake/Roller Applied Output", rollerMotor.getAppliedOutput());
-        if (SmartDashboard.getBoolean("Intake/Reset Encoder", false)) {
+        SmartDashboard.putNumber("Intake/Roller/Applied Output", rollerMotor.getAppliedOutput());
+        if (SmartDashboard.getBoolean("Intake/Pivot/Reset Encoder", false)) {
                 pivotEncoder.setPosition(0);
-                SmartDashboard.putBoolean("Intake/Reset Encoder", false);
+                SmartDashboard.putBoolean("Intake/Pivot/Reset Encoder", false);
         }
     }
 
