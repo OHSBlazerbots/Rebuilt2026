@@ -44,7 +44,7 @@ public class ShooterSubsystem extends SubsystemBase {
                 shooterConfig.encoder
                                 .positionConversionFactor(1)
                                 .velocityConversionFactor(1);
-                
+
                 collumnConfig.encoder
                                 .positionConversionFactor(1)
                                 .velocityConversionFactor(1);
@@ -63,7 +63,7 @@ public class ShooterSubsystem extends SubsystemBase {
                                 .d(0, ClosedLoopSlot.kSlot1)
                                 .velocityFF(1.0 / 5767, ClosedLoopSlot.kSlot1)
                                 .outputRange(-1, 1, ClosedLoopSlot.kSlot1);
-                
+
                 collumnConfig.closedLoop
                                 .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                                 // Set PID values for position control. We don't need to pass a closed loop
@@ -78,11 +78,9 @@ public class ShooterSubsystem extends SubsystemBase {
                                 .d(0, ClosedLoopSlot.kSlot1)
                                 .velocityFF(1.0 / 5767, ClosedLoopSlot.kSlot1)
                                 .outputRange(-1, 1, ClosedLoopSlot.kSlot1);
-                
-                
 
                 shooterMotor.configure(shooterConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-                collumnMotor.configure(collumnConfig, ResetMode.kResetSafeParameters,PersistMode.kPersistParameters);
+                collumnMotor.configure(collumnConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
                 shooterEncoder = shooterMotor.getEncoder();
                 collumnEncoder = collumnMotor.getEncoder();
 
@@ -94,7 +92,7 @@ public class ShooterSubsystem extends SubsystemBase {
                 shooterController.setReference(targetVelocity, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
         }
 
-        public void setColumnPosition(double targetVelocity) {
+        public void setColumnVelocity(double targetVelocity) {
                 collumnController.setReference(targetVelocity, ControlType.kPosition, ClosedLoopSlot.kSlot0);
         }
 
@@ -102,7 +100,7 @@ public class ShooterSubsystem extends SubsystemBase {
         public void periodic() {
                 SmartDashboard.putNumber("Shooter/Shooter/Velocity", shooterEncoder.getVelocity());
                 SmartDashboard.putNumber("Shooter/Collumn/Velocity", collumnEncoder.getVelocity());
-            
+
         }
 
 }

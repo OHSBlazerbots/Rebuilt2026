@@ -190,6 +190,23 @@ public class RobotContainer
       driverXbox.rightBumper().onTrue(Commands.none());
     }
 
+    driverXbox.y()
+      .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setShooterVelocity(67)))
+      .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.setShooterVelocity(0)));
+    
+    driverXbox.a()
+      .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setShooterVelocity(-67)))
+      .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.setShooterVelocity(0)));
+
+    driverXbox.b()
+      .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setColumnVelocity(-67)))
+      .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.setColumnVelocity(0)));
+    
+    driverXbox.x()
+      .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setColumnVelocity(-67)))
+      .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.setColumnVelocity(0)));
+
+      
     codriverXbox.y()
       .onTrue(Commands.runOnce(() -> m_ClimbingSubsystem.setClimbingVelocity(67)))
       .onFalse(Commands.runOnce(() -> m_ClimbingSubsystem.setClimbingVelocity(0)));
