@@ -49,7 +49,7 @@ public final class Constants
 
   public static final class ShooterConstants{
     public static final int kCollumnMotorPort = 67;
-    public static final int kShooterMotorPort = 67;
+    public static final int kShooterMotorPort = 68;
   }
 
   public static class OperatorConstants

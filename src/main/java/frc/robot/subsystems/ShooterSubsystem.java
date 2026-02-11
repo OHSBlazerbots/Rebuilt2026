@@ -16,8 +16,8 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ClimbingConstants;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.Components.LinearServo;
 
 public class ShooterSubsystem extends SubsystemBase {
 
@@ -31,6 +31,7 @@ public class ShooterSubsystem extends SubsystemBase {
         private SparkClosedLoopController collumnController = collumnMotor.getClosedLoopController();
         private RelativeEncoder shooterEncoder;
         private RelativeEncoder collumnEncoder;
+        private LinearServo Linear;
 
         public ShooterSubsystem() {
 
@@ -86,15 +87,25 @@ public class ShooterSubsystem extends SubsystemBase {
 
                 SmartDashboard.setDefaultNumber("Shooter/Shooter/Velocity", 0);
                 SmartDashboard.setDefaultNumber("Shooter/Collumn/Velocity", 0);
+
         }
 
         public void setShooterVelocity(double targetVelocity) {
                 shooterController.setReference(targetVelocity, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
         }
 
+
         public void setColumnVelocity(double targetVelocity) {
                 collumnController.setReference(targetVelocity, ControlType.kPosition, ClosedLoopSlot.kSlot0);
         }
+
+        public void setLinearServoPosition(double targetPosition) {
+                Linear.setPosition(targetPosition);
+        }
+
+        // public void getShooterVelocity(){
+        //         shooterController.get
+        // }
 
         @Override
         public void periodic() {
