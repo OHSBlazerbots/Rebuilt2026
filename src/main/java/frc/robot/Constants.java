@@ -48,6 +48,9 @@ public final class Constants
     public static final int maxClimbingHeight = 78;
 
   }
+  public static final class FeederConstants{
+    public static final int primaryCanID = 12;
+  }
 
   public static class OperatorConstants
   {

@@ -5,8 +5,7 @@
 package frc.robot;
 
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ClimbingSubsystem;
+import frc.robot.subsystems.*;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -45,10 +44,10 @@ public class RobotContainer
   private final SwerveSubsystem       drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                                 "swerve/neo"));
   private final ClimbingSubsystem m_ClimbingSubsystem;
-
+  private final FeederSubsystem feeder;
   // Establish a Sendable Chooser that will be able to be sent to the SmartDashboard, allowing selection of desired auto
   private final SendableChooser<Command> autoChooser = new SendableChooser<>();
-
+  
   /**
    * Converts driver input into a field-relative ChassisSpeeds that is controlled by angular velocity.
    */
@@ -109,6 +108,7 @@ public class RobotContainer
   {
     m_IntakeSubsystem = new IntakeSubsystem();
     m_ClimbingSubsystem = new ClimbingSubsystem();
+    feeder = new FeederSubsystem();
     // Configure the trigger bindings
     configureBindings();
     DriverStation.silenceJoystickConnectionWarning(true);
@@ -194,6 +194,7 @@ public class RobotContainer
       driverXbox.rightBumper().onTrue(Commands.none());
     }
 
+
     codriverXbox.povRight()
       .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(67)))
       .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(0)));
@@ -233,6 +234,14 @@ public class RobotContainer
       .onTrue(Commands.runOnce(() -> m_ClimbingSubsystem.setClimbingPosition(-67)))
       .onFalse(Commands.none());
    
+        
+    codriverXbox.povLeft()
+      .onTrue(Commands.runOnce(() -> feeder.setRollerVelocity(67)))
+      .onFalse(Commands.runOnce(() -> feeder.setRollerVelocity(0)));
+
+    codriverXbox.povRight()
+      .onTrue(Commands.runOnce(() -> feeder.setRollerVelocity(-67)))
+      .onFalse(Commands.runOnce(() -> feeder.setRollerVelocity(0)));  
 
   }
 
