@@ -8,11 +8,13 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLimitSwitch;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkFlex;
+import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.config.LimitSwitchConfig.Type;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkFlexConfig;
+import com.revrobotics.spark.config.SparkFlexConfig;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -21,19 +23,21 @@ import frc.robot.Components.LinearServo;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-         private SparkMax collumnMotor = new SparkMax(ShooterConstants.kCollumnMotorPort, MotorType.kBrushless);
-        private SparkMax shooterMotor = new SparkMax(ShooterConstants.kShooterMotorPort, MotorType.kBrushless);
-        // private SparkMax shooterLeftMotor = new
-        // SparkMax(ShooterConstants.kShooterMotorPort, MotorType.kBrushless);
-        // private SparkMax shooterMiddleMotor = new
-        // SparkMax(ShooterConstants.kShooterMotorPort, MotorType.kBrushless);
-        // private SparkMax shooterRightMotor = new
-        // SparkMax(ShooterConstants.kShooterMotorPort, MotorType.kBrushless);
-        private SparkMaxConfig shooterConfig = new SparkMaxConfig();
-        // private SparkMaxConfig shooterLeftConfig = new SparkMaxConfig();
-        // private SparkMaxConfig shooterMiddleConfig = new SparkMaxConfig();
-        // private SparkMaxConfig shooterRightConfig = new SparkMaxConfig();
-        // private SparkMaxConfig collumnConfig = new SparkMaxConfig();
+        private SparkFlex collumnMotor = new SparkFlex(ShooterConstants.kCollumnMotorPort, MotorType.kBrushless);
+        private SparkFlex shooterMotor = new SparkFlex(ShooterConstants.kShooterMotorPort, MotorType.kBrushless);
+        //private SparkFlex = new SparkFlex(ShooterConstants.kCollumnMotorPort, MotorType.kBrushless);
+        //private SparkFlex shooterMotor = new SparkFlex(ShooterConstants.kShooterMotorPort, MotorType.kBrushless);
+        // private SparkFlex shooterLeftMotor = new
+        // SparkFlex(ShooterConstants.kShooterMotorPort, MotorType.kBrushless);
+        // private SparkFlex shooterMiddleMotor = new
+        // SparkFlex(ShooterConstants.kShooterMotorPort, MotorType.kBrushless);
+        // private SparkFlex shooterRightMotor = new
+        // SparkFlex(ShooterConstants.kShooterMotorPort, MotorType.kBrushless);
+        private SparkFlexConfig shooterConfig = new SparkFlexConfig();
+        // private SparkFlexConfig shooterLeftConfig = new SparkFlexConfig();
+        // private SparkFlexConfig shooterMiddleConfig = new SparkFlexConfig();
+        // private SparkFlexConfig shooterRightConfig = new SparkFlexConfig();
+        // private SparkFlexConfig collumnConfig = new SparkFlexConfig();
         private SparkClosedLoopController shooterController = shooterMotor.getClosedLoopController();
         // private SparkClosedLoopController shooterLeftController =
         // shooterLeftMotor.getClosedLoopController();
