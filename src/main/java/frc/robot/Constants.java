@@ -44,16 +44,16 @@ public final class Constants {
   }
 
   public static final class ClimbingConstants {
-    // public static final int kRightClimbingMotorPort = 20;
-    // public static final int kLeftClimbingMotorPort = 67;
-    // public static final int kForwardSoftLimitRotations = 78;
-    // public static final int kReverseSoftLimitRotations = 0;
-    // public static final int maxClimbingHeight = 78;
+     public static final int kRightClimbingMotorPort = 20;
+     public static final int kLeftClimbingMotorPort = 67;
+     public static final int kForwardSoftLimitRotations = 78;
+     public static final int kReverseSoftLimitRotations = 0;
+     public static final int maxClimbingHeight = 78;
   }
 
   public static final class ShooterConstants {
-    // public static final int kCollumnMotorPort = 7;
-    public static final int kShooterMotorPort = 10;
+    public static final int kCollumnMotorPort = 11;
+    public static final int kShooterMotorPort = 12;
     // public static final int kShooterLeftMotorPort = 6;
     // public static final int kShooterRightMotorPort = 6;
     // public static final int kShooterMiddleMotorPort = 6;

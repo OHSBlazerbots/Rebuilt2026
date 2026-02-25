@@ -21,7 +21,7 @@ import frc.robot.Components.LinearServo;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-        // private SparkMax collumnMotor = new SparkMax(ShooterConstants.kCollumnMotorPort, MotorType.kBrushless);
+         private SparkMax collumnMotor = new SparkMax(ShooterConstants.kCollumnMotorPort, MotorType.kBrushless);
         private SparkMax shooterMotor = new SparkMax(ShooterConstants.kShooterMotorPort, MotorType.kBrushless);
         // private SparkMax shooterLeftMotor = new
         // SparkMax(ShooterConstants.kShooterMotorPort, MotorType.kBrushless);
@@ -41,7 +41,7 @@ public class ShooterSubsystem extends SubsystemBase {
         // shooterMiddleMotor.getClosedLoopController();
         // private SparkClosedLoopController shooterRightController =
         // shooterRightMotor.getClosedLoopController();
-        // private SparkClosedLoopController collumnController = collumnMotor.getClosedLoopController();
+         private SparkClosedLoopController collumnController = collumnMotor.getClosedLoopController();
         private RelativeEncoder shooterEncoder;
         // private RelativeEncoder shooterLeftEncoder;
         // private RelativeEncoder shooterMiddleEncoder;
@@ -163,9 +163,9 @@ public class ShooterSubsystem extends SubsystemBase {
         // ClosedLoopSlot.kSlot1);
         // }
 
-        // public void setColumnVelocity(double targetVelocity) {
-        //         // collumnController.setReference(targetVelocity, ControlType.kPosition, ClosedLoopSlot.kSlot0);
-        // }
+        public void setColumnVelocity(double targetVelocity) {
+                collumnController.setReference(targetVelocity, ControlType.kPosition, ClosedLoopSlot.kSlot0);
+         }
 
         // Set the position of the linear servo
         public void setLinearServoPosition(double targetPosition) {
