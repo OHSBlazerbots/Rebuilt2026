@@ -13,19 +13,19 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLimitSwitch;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.config.LimitSwitchConfig.Type;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkFlexConfig;
 
 public class ClimbingSubsystem extends SubsystemBase {
 
-        private SparkMax m_PrimaryMotor = new SparkMax(ClimbingConstants.kRightClimbingMotorPort,
+        private SparkFlex m_PrimaryMotor = new SparkFlex(ClimbingConstants.kRightClimbingMotorPort,
                         MotorType.kBrushless);
-        private SparkMax m_SecondaryMotor = new SparkMax(ClimbingConstants.kLeftClimbingMotorPort,
+        private SparkFlex m_SecondaryMotor = new SparkFlex(ClimbingConstants.kLeftClimbingMotorPort,
                         MotorType.kBrushless);
-        private SparkMaxConfig primaryConfig = new SparkMaxConfig();
-        private SparkMaxConfig secondaryConfig = new SparkMaxConfig();
+        private SparkFlexConfig primaryConfig = new SparkFlexConfig();
+        private SparkFlexConfig secondaryConfig = new SparkFlexConfig();
         private SparkClosedLoopController m_ClimbingPrimaryController = m_PrimaryMotor.getClosedLoopController();
 
         private SparkLimitSwitch forwardLimitSwitch;
