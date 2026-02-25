@@ -52,8 +52,8 @@ public final class Constants {
   }
 
   public static final class ShooterConstants {
-    public static final int kCollumnMotorPort = 11;
-    public static final int kShooterMotorPort = 12;
+    public static final int kCollumnMotorPort = 14;
+    public static final int kShooterMotorPort = 15;
     // public static final int kShooterLeftMotorPort = 6;
     // public static final int kShooterRightMotorPort = 6;
     // public static final int kShooterMiddleMotorPort = 6;
