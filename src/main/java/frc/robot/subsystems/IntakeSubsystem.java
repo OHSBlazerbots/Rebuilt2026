@@ -16,8 +16,9 @@ import com.revrobotics.spark.config.SparkFlexConfig;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ClimbingConstants;
+import frc.robot.subsystems.IntakeSubsystem; 
 import frc.robot.Constants.IntakeConstants;
+
 
 public class IntakeSubsystem extends SubsystemBase {
 

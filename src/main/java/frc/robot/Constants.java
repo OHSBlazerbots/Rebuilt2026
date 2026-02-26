@@ -50,6 +50,9 @@ public final class Constants {
      public static final int kReverseSoftLimitRotations = 0;
      public static final int maxClimbingHeight = 78;
   }
+  public static final class FeederConstants{
+    public static final int primaryCanID = 12;
+  }
 
   public static final class ShooterConstants {
     public static final int kCollumnMotorPort = 14;
