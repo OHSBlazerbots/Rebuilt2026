@@ -1,6 +1,7 @@
 {
   "java.configuration.updateBuildConfiguration": "automatic",
   "java.server.launchMode": "Standard",
+  "java.transport" : "stdio",
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,
