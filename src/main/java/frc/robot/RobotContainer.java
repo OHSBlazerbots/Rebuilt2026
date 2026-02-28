@@ -4,9 +4,8 @@
 
 package frc.robot;
 
-// import frc.robot.subsystems.ClimbingSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+// import frc.robot.subsystems.ClimbingSubsystem;
 import frc.robot.subsystems.*;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -27,6 +26,9 @@ import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import java.io.File;
+
+import com.pathplanner.lib.auto.NamedCommands;
+
 import swervelib.SwerveInputStream;
 
 /**
@@ -116,10 +118,11 @@ public class RobotContainer {
    */
   public RobotContainer() {
     m_ShooterSubsystem = new ShooterSubsystem();
-
     m_IntakeSubsystem = new IntakeSubsystem();
     m_ClimbingSubsystem = new ClimbingSubsystem();
     feeder = new FeederSubsystem();
+
+    NamedCommands.registerCommand("shoot",Commands.runOnce(() -> m_ShooterSubsystem.setShooterVelocity(2670)));
     // Configure the trigger bindings
     configureBindings();
     DriverStation.silenceJoystickConnectionWarning(true);
