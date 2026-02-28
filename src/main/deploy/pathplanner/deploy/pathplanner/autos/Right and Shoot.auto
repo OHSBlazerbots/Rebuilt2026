@@ -7,13 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Left to Middle"
+            "pathName": "Right to middle"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "column"
           }
         }
       ]

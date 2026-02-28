@@ -122,6 +122,7 @@ public class RobotContainer {
     m_ClimbingSubsystem = new ClimbingSubsystem();
     feeder = new FeederSubsystem();
 
+    NamedCommands.registerCommand("column",Commands.runOnce(() -> m_ShooterSubsystem.setColumnVelocity(2670)));
     NamedCommands.registerCommand("shoot",Commands.runOnce(() -> m_ShooterSubsystem.setShooterVelocity(2670)));
     // Configure the trigger bindings
     configureBindings();
