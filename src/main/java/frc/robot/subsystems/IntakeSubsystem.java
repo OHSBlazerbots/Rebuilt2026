@@ -8,27 +8,28 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLimitSwitch;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.config.LimitSwitchConfig.Type;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkFlexConfig;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ClimbingConstants;
+import frc.robot.subsystems.IntakeSubsystem; 
 import frc.robot.Constants.IntakeConstants;
+
 
 public class IntakeSubsystem extends SubsystemBase {
 
-    private SparkMax rollerMotor = new SparkMax(IntakeConstants.rollerCanID,
+    private SparkFlex rollerMotor = new SparkFlex(IntakeConstants.rollerCanID,
             MotorType.kBrushless);
-    private SparkMaxConfig rollerConfig = new SparkMaxConfig();
+    private SparkFlexConfig rollerConfig = new SparkFlexConfig();
     private SparkClosedLoopController rollerController = rollerMotor.getClosedLoopController();
     
-    private SparkMax pivotMotor = new SparkMax(IntakeConstants.pivotCanID,
+    private SparkFlex pivotMotor = new SparkFlex(IntakeConstants.pivotCanID,
             MotorType.kBrushless);
-    private SparkMaxConfig pivotConfig = new SparkMaxConfig();
+    private SparkFlexConfig pivotConfig = new SparkFlexConfig();
     private SparkClosedLoopController pivotController = pivotMotor.getClosedLoopController();
 
     private SparkLimitSwitch forwardLimitSwitch;
