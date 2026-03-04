@@ -6,58 +6,45 @@ import static edu.wpi.first.units.Units.Seconds;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.wpi.first.units.measure.Time;
 
-/**
- * Rewind buffer stats object (supported hardware only).
- */
-public class RewindStats
-{
+/** Rewind buffer stats object (supported hardware only). */
+public class RewindStats {
 
-  /**
-   * Buffer usage (0.0 to 1.0)
-   */
+  /** Buffer usage (0.0 to 1.0) */
   @JsonProperty("bufferUsage")
   public double bufferUsage;
-  /**
-   * 1 if rewind recording is enabled, 0 if paused
-   */
+
+  /** 1 if rewind recording is enabled, 0 if paused */
   @JsonProperty("enabled")
-  public int    enabled;
-  /**
-   * 1 if currently flushing to disk, 0 otherwise
-   */
+  public int enabled;
+
+  /** 1 if currently flushing to disk, 0 otherwise */
   @JsonProperty("flushing")
-  public int    flushing;
-  /**
-   * Number of frames in buffer
-   */
+  public int flushing;
+
+  /** Number of frames in buffer */
   @JsonProperty("frameCount")
-  public int    frameCount;
+  public int frameCount;
+
   /**
-   * Rewind has a latency penalty of 500us-1ms. This latency penalty is listed in the results json rewind object as
-   * "latpen" in integer microseconds
+   * Rewind has a latency penalty of 500us-1ms. This latency penalty is listed in the results json
+   * rewind object as "latpen" in integer microseconds
    */
   @JsonProperty("latpen")
-  public int    latencyPenalty;
-  /**
-   * Seconds of video in buffer
-   */
+  public int latencyPenalty;
+
+  /** Seconds of video in buffer */
   @JsonProperty("storedSeconds")
   public double storedSeconds;
 
-  /**
-   * Creates a new RewindStats object.
-   */
-  public RewindStats()
-  {
-  }
+  /** Creates a new RewindStats object. */
+  public RewindStats() {}
 
   /**
    * Get the latency penalty as a {@link Time} object.
    *
    * @return Latency penalty as a {@link Time} object.
    */
-  public Time getLatencyPenalty()
-  {
+  public Time getLatencyPenalty() {
     return Microseconds.of(latencyPenalty);
   }
 
@@ -66,8 +53,7 @@ public class RewindStats
    *
    * @return {@link Time} of the buffer storage.
    */
-  public Time getBufferTime()
-  {
+  public Time getBufferTime() {
     return Seconds.of(storedSeconds);
   }
 
@@ -76,8 +62,7 @@ public class RewindStats
    *
    * @return True if enabled, false otherwise.
    */
-  public boolean getEnabled()
-  {
+  public boolean getEnabled() {
     return enabled == 1;
   }
 
@@ -86,8 +71,7 @@ public class RewindStats
    *
    * @return Buffer flushing status.
    */
-  public boolean isFlushing()
-  {
+  public boolean isFlushing() {
     return flushing == 1;
   }
 
@@ -96,8 +80,7 @@ public class RewindStats
    *
    * @return Frame count.
    */
-  public int getFrameCount()
-  {
+  public int getFrameCount() {
     return frameCount;
   }
 }
