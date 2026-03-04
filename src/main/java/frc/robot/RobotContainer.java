@@ -48,7 +48,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
       "swerve/neo"));
-  private final ClimbingSubsystem m_ClimbingSubsystem;
+  //private final ClimbingSubsystem m_ClimbingSubsystem;
   private final FeederSubsystem feeder;
   private final ShooterSubsystem m_ShooterSubsystem;
   private final DriverCameraSubsystem m_DriverCameraSubsystem;
@@ -117,10 +117,10 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    m_ShooterSubsystem = new ShooterSubsystem();
+   m_ShooterSubsystem = new ShooterSubsystem();
 
     m_IntakeSubsystem = new IntakeSubsystem();
-    m_ClimbingSubsystem = new ClimbingSubsystem();
+    // m_ClimbingSubsystem = new ClimbingSubsystem();
     m_DriverCameraSubsystem = new DriverCameraSubsystem();
     feeder = new FeederSubsystem();
     // Configure the trigger bindings
@@ -205,21 +205,21 @@ public class RobotContainer {
       driverXbox.rightBumper().onTrue(Commands.none());
     }
 
-    driverXbox.y()
-        .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setShooterVelocity(2670)))
-        .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.setShooterVelocity(0)));
+   driverXbox.y()
+       .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setShooterVelocity(2670)))
+       .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.setShooterVelocity(0)));
 
     driverXbox.a()
-        .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setShooterVelocity(-2670)))
+       .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setShooterVelocity(-2670)))
         .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.setShooterVelocity(0)));
 
-    // driverXbox.b()
-    // .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setColumnVelocity(-67)))
-    // .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.setColumnVelocity(0)));
+    driverXbox.b()
+    .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setColumnVelocity(2000)))
+    .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.setColumnVelocity(0)));
 
-    // driverXbox.x()
-    // .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setColumnVelocity(-67)))
-    // .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.setColumnVelocity(0)));
+    driverXbox.x()
+    .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setColumnVelocity(-2000)))
+    .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.setColumnVelocity(0)));
 
     // codriverXbox.y()
     // .onTrue(Commands.runOnce(() -> m_ClimbingSubsystem.setClimbingVelocity(67)))
@@ -229,47 +229,47 @@ public class RobotContainer {
     // .onTrue(Commands.runOnce(() -> m_ClimbingSubsystem.setClimbingVelocity(-67)))
     // .onFalse(Commands.runOnce(() -> m_ClimbingSubsystem.setClimbingVelocity(0)));
     codriverXbox.povRight()
-      .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(67)))
+      .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(1000)))
       .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(0)));
 
     codriverXbox.povLeft()
-      .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(-67)))
+      .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(-1000)))
       .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(0)));
     
-    codriverXbox.povUp()
-      .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setPivotPosition(67)))
-      .onFalse(Commands.none());
+    // codriverXbox.povUp()
+    //   .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setPivotPosition(67)))
+    //   .onFalse(Commands.none());
 
-    codriverXbox.povDown()
-      .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setPivotPosition(-67)))
-      .onFalse(Commands.none());
+    // codriverXbox.povDown()
+    //   .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setPivotPosition(-67)))
+    //   .onFalse(Commands.none());
     
     codriverXbox.rightBumper()
-      .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setRollerVelocity(67)))
+      .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setRollerVelocity(2000)))
       .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.setRollerVelocity(0)));
 
     codriverXbox.leftBumper()
-      .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setRollerVelocity(-67)))
+      .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setRollerVelocity(-2000)))
       .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.setRollerVelocity(0)));
-    codriverXbox.y()
-      .onTrue(Commands.runOnce(() -> m_ClimbingSubsystem.setClimbingVelocity(67)))
-      .onFalse(Commands.runOnce(() -> m_ClimbingSubsystem.setClimbingVelocity(0)));
+    // codriverXbox.y()
+      // .onTrue(Commands.runOnce(() -> m_ClimbingSubsystem.setClimbingVelocity(67)))
+      // .onFalse(Commands.runOnce(() -> m_ClimbingSubsystem.setClimbingVelocity(0)));
 
     // codriverXbox.x()
     // .onTrue(Commands.runOnce(() -> m_ClimbingSubsystem.setClimbingPosition(67)))
     // .onFalse(Commands.none());
 
-    codriverXbox.b()
-      .onTrue(Commands.runOnce(() -> m_ClimbingSubsystem.setClimbingPosition(-67)))
-      .onFalse(Commands.none());
+    // codriverXbox.b()
+      // .onTrue(Commands.runOnce(() -> m_ClimbingSubsystem.setClimbingPosition(-67)))
+      // .onFalse(Commands.none());
    
         
-    codriverXbox.povLeft()
-      .onTrue(Commands.runOnce(() -> feeder.setRollerVelocity(67)))
+    codriverXbox.rightTrigger()
+      .onTrue(Commands.runOnce(() -> feeder.setRollerVelocity(1000)))
       .onFalse(Commands.runOnce(() -> feeder.setRollerVelocity(0)));
 
-    codriverXbox.povRight()
-      .onTrue(Commands.runOnce(() -> feeder.setRollerVelocity(-67)))
+    codriverXbox.leftTrigger()
+      .onTrue(Commands.runOnce(() -> feeder.setRollerVelocity(-1000)))
       .onFalse(Commands.runOnce(() -> feeder.setRollerVelocity(0)));  
 
   }
