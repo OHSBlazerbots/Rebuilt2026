@@ -205,20 +205,20 @@ public class RobotContainer {
       driverXbox.rightBumper().onTrue(Commands.none());
     }
 
-   driverXbox.y()
-       .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setShooterVelocity(2670)))
+   codriverXbox.y()
+       .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setShooterVelocity(5670)))
        .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.setShooterVelocity(0)));
 
-    driverXbox.a()
-       .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setShooterVelocity(-2670)))
+    codriverXbox.a()
+       .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setShooterVelocity(-5670)))
         .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.setShooterVelocity(0)));
 
-    driverXbox.b()
-    .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setColumnVelocity(2000)))
+    codriverXbox.b()
+    .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setColumnVelocity(1000)))
     .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.setColumnVelocity(0)));
 
-    driverXbox.x()
-    .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setColumnVelocity(-2000)))
+    codriverXbox.x()
+    .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setColumnVelocity(-1000)))
     .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.setColumnVelocity(0)));
 
     // codriverXbox.y()

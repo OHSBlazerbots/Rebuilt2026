@@ -98,7 +98,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
                 // linearServo = new LinearServo(0, 0, 0);
 
-                SmartDashboard.setDefaultNumber("Shooter/Shooter/Velocity", 0);
+                SmartDashboard.setDefaultNumber("Shooter/Shooter Left/Velocity", 0);
+                SmartDashboard.setDefaultNumber("Shooter/Shooter Middle/Velocity", 0);
+                SmartDashboard.setDefaultNumber("Shooter/Shooter Right/Velocity", 0);
                 SmartDashboard.setDefaultNumber("Shooter/Collumn/Velocity", 0);
         }
 
@@ -121,13 +123,12 @@ public class ShooterSubsystem extends SubsystemBase {
 
         @Override
         public void periodic() {
-                // SmartDashboard.putNumber("Shooter/Shooter/Velocity", shooterEncoder.getVelocity());
-                // SmartDashboard.putNumber("Shooter/Shooter Left/Velocity",
-                // shooterLeftEncoder.getVelocity());
-                // SmartDashboard.putNumber("Shooter/Shooter Middle/Velocity",
-                // shooterMiddleEncoder.getVelocity());
-                // SmartDashboard.putNumber("Shooter/Shooter Right/Velocity",
-                // shooterRightEncoder.getVelocity());
-                // SmartDashboard.putNumber("Shooter/Collumn/Velocity", collumnEncoder.getVelocity());
+                SmartDashboard.putNumber("Shooter/Shooter Left/Velocity",
+                shooterLeftEncoder.getVelocity());
+                SmartDashboard.putNumber("Shooter/Shooter Middle/Velocity",
+                shooterMiddleEncoder.getVelocity());
+                SmartDashboard.putNumber("Shooter/Shooter Right/Velocity",
+                shooterRightEncoder.getVelocity());
+                SmartDashboard.putNumber("Shooter/Collumn/Velocity", collumnEncoder.getVelocity());
         }
 }
