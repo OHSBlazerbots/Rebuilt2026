@@ -16,7 +16,8 @@ import com.revrobotics.spark.config.SparkFlexConfig;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.IntakeSubsystem; 
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.Constants;
 import frc.robot.Constants.IntakeConstants;
 
 
@@ -134,9 +135,27 @@ public class IntakeSubsystem extends SubsystemBase {
     public void setPivotPosition(double targetPosition) {
         pivotController.setReference(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
     }
+    public void pivotOut(){
+        setPivotPosition(IntakeConstants.pivotForwardSoftLimitRotations);
+    }
+    public void pivotIn(){
+        setPivotPosition(IntakeConstants.pivotReverseSoftLimitRotations);
+    }
+    public void rollersIn(){
+        setRollerVelocity(IntakeConstants.maxRollerSpeed);
+    }
+    public void rollersOut(){
+        setRollerVelocity(-IntakeConstants.maxRollerSpeed);
+    }
+    public void stopRollers(){
+        setRollerVelocity(0);
+    }
     
     public void setRollerVelocity(double targetVelocity) {
         rollerController.setReference(targetVelocity, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
+    }
+    public boolean isDown(){
+        return Math.abs(pivotEncoder.getPosition()-IntakeConstants.pivotForwardSoftLimitRotations) <= 5.00;
     }
 
    @Override
