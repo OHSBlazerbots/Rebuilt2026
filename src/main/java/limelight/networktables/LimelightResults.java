@@ -1,6 +1,5 @@
 package limelight.networktables;
 
-
 import static limelight.networktables.LimelightUtils.toPose2D;
 import static limelight.networktables.LimelightUtils.toPose3D;
 
@@ -21,163 +20,124 @@ import limelight.results.IMUResults;
 import limelight.results.RewindStats;
 
 /**
- * {@link Limelight} Results object, parsed from a {@link Limelight}'s JSON limelight.results output.
+ * {@link Limelight} Results object, parsed from a {@link Limelight}'s JSON limelight.results
+ * output.
  */
-public class LimelightResults
-{
+public class LimelightResults {
 
-  /**
-   * Error message, if any.
-   */
+  /** Error message, if any. */
   public String error;
 
-  /**
-   * Current pipeline index
-   */
+  /** Current pipeline index */
   @JsonProperty("pID")
   public double pipelineID;
 
-  /**
-   * Targeting latency (milliseconds consumed by tracking loop this frame)
-   */
+  /** Targeting latency (milliseconds consumed by tracking loop this frame) */
   @JsonProperty("tl")
   public double latency_pipeline;
 
   /**
-   * Capture latency (milliseconds between the end of the exposure of the middle row to the beginning of the tracking
-   * loop)
+   * Capture latency (milliseconds between the end of the exposure of the middle row to the
+   * beginning of the tracking loop)
    */
   @JsonProperty("cl")
   public double latency_capture;
 
   public double latency_jsonParse;
 
-  /**
-   * Timestamp in milliseconds from boot.
-   */
+  /** Timestamp in milliseconds from boot. */
   @JsonProperty("ts")
   public double timestamp_LIMELIGHT_publish;
 
   @JsonProperty("ts_rio")
   public double timestamp_RIOFPGA_capture;
 
-  /**
-   * Validity indicator. 1 = valid targets, 0 = no valid targets
-   */
+  /** Validity indicator. 1 = valid targets, 0 = no valid targets */
   @JsonProperty("v")
   @JsonFormat(shape = Shape.NUMBER)
   public boolean valid;
 
-  /**
-   * Botpose (MegaTag): x,y,z, roll, pitch, yaw (meters, degrees)
-   */
+  /** Botpose (MegaTag): x,y,z, roll, pitch, yaw (meters, degrees) */
   @JsonProperty("botpose")
   public double[] botpose;
 
-  /**
-   * Botpose (MegaTag, WPI Red driverstation): x,y,z, roll, pitch, yaw (meters, degrees)
-   */
+  /** Botpose (MegaTag, WPI Red driverstation): x,y,z, roll, pitch, yaw (meters, degrees) */
   @JsonProperty("botpose_wpired")
   public double[] botpose_wpired;
 
-  /**
-   * Botpose (MegaTag, WPI Blue driverstation): x,y,z, roll, pitch, yaw (meters, degrees)
-   */
+  /** Botpose (MegaTag, WPI Blue driverstation): x,y,z, roll, pitch, yaw (meters, degrees) */
   @JsonProperty("botpose_wpiblue")
   public double[] botpose_wpiblue;
 
-  /**
-   * Number of tags used to compute botpose
-   */
+  /** Number of tags used to compute botpose */
   @JsonProperty("botpose_tagcount")
   public double botpose_tagcount;
 
-  /**
-   * Max distance between tags used to compute botpose (meters)
-   */
+  /** Max distance between tags used to compute botpose (meters) */
   @JsonProperty("botpose_span")
   public double botpose_span;
 
-  /**
-   * Max distance between tags used to compute botpose (meters)
-   */
+  /** Max distance between tags used to compute botpose (meters) */
   @JsonProperty("botpose_avgdist")
   public double botpose_avgdist;
 
-  /**
-   * Average area of tags used to compute botpose
-   */
+  /** Average area of tags used to compute botpose */
   @JsonProperty("botpose_avgarea")
   public double botpose_avgarea;
 
   @JsonProperty("t6c_rs")
-  public double[]              camerapose_robotspace;
-  /**
-   * Color/Retroreflective pipeline results array
-   */
+  public double[] camerapose_robotspace;
+
+  /** Color/Retroreflective pipeline results array */
   @JsonProperty("Retro")
   public RetroreflectiveTape[] targets_Retro;
-  /**
-   * AprilTag pipeline results array
-   */
+
+  /** AprilTag pipeline results array */
   @JsonProperty("Fiducial")
-  public AprilTagFiducial[]    targets_Fiducials;
-  /**
-   * Classifier pipeline results array
-   */
+  public AprilTagFiducial[] targets_Fiducials;
+
+  /** Classifier pipeline results array */
   @JsonProperty("Classifier")
-  public NeuralClassifier[]    targets_Classifier;
-  /**
-   * Neural Detector pipeline results array
-   */
+  public NeuralClassifier[] targets_Classifier;
+
+  /** Neural Detector pipeline results array */
   @JsonProperty("Detector")
-  public NeuralDetector[]      targets_Detector;
-  /**
-   * Barcode pipeline results array
-   */
+  public NeuralDetector[] targets_Detector;
+
+  /** Barcode pipeline results array */
   @JsonProperty("Barcode")
-  public Barcode[]             targets_Barcode;
-  /**
-   * Hardware report
-   */
+  public Barcode[] targets_Barcode;
+
+  /** Hardware report */
   @JsonProperty("hw")
-  public HardwareReport        hardware;
-  /**
-   * Limelight IMU results
-   */
+  public HardwareReport hardware;
+
+  /** Limelight IMU results */
   @JsonProperty("imu")
   public IMUResults imuResults;
-  /**
-   * Rewind stats (Limelight 4 only)
-   */
+
+  /** Rewind stats (Limelight 4 only) */
   @JsonProperty("rewind")
   public RewindStats rewindStats;
-  /**
-   * Image source setting value.
-   */
+
+  /** Image source setting value. */
   @JsonProperty("imgsrc")
   public String imageSource;
-  /**
-   * Hardware type identifier.
-   */
+
+  /** Hardware type identifier. */
   @JsonProperty("hwtype")
   public String hardwareType;
-  /**
-   * 1 if web UI needs refresh, 0 otherwise.
-   */
-  @JsonProperty("uirefesh")
-  public  int uiRefresh;
-  /**
-   * 	1 if NetworkTables pipeline control is disabled, 0 otherwise.
-   */
-  @JsonProperty("ignorent")
-  public  int ignoreNetworkTables;
 
-  /**
-   * Construct a LimelightResults object for JSON Parsing.
-   */
-  public LimelightResults()
-  {
+  /** 1 if web UI needs refresh, 0 otherwise. */
+  @JsonProperty("uirefesh")
+  public int uiRefresh;
+
+  /** 1 if NetworkTables pipeline control is disabled, 0 otherwise. */
+  @JsonProperty("ignorent")
+  public int ignoreNetworkTables;
+
+  /** Construct a LimelightResults object for JSON Parsing. */
+  public LimelightResults() {
     botpose = new double[6];
     botpose_wpired = new double[6];
     botpose_wpiblue = new double[6];
@@ -187,7 +147,6 @@ public class LimelightResults
     targets_Classifier = new NeuralClassifier[0];
     targets_Detector = new NeuralDetector[0];
     targets_Barcode = new Barcode[0];
-
   }
 
   /**
@@ -195,8 +154,7 @@ public class LimelightResults
    *
    * @return {@link Pose3d} object representing the botpose.
    */
-  public Pose3d getBotPose3d()
-  {
+  public Pose3d getBotPose3d() {
     return toPose3D(botpose);
   }
 
@@ -206,13 +164,10 @@ public class LimelightResults
    * @param alliance Alliance color to get the botpose for.
    * @return {@link Pose3d} object representing the botpose.
    */
-  public Pose3d getBotPose3d(DriverStation.Alliance alliance)
-  {
-    if (alliance == DriverStation.Alliance.Red)
-    {
+  public Pose3d getBotPose3d(DriverStation.Alliance alliance) {
+    if (alliance == DriverStation.Alliance.Red) {
       return toPose3D(botpose_wpired);
-    } else
-    {
+    } else {
       return toPose3D(botpose_wpiblue);
     }
   }
@@ -222,8 +177,7 @@ public class LimelightResults
    *
    * @return {@link Pose2d} object representing the botpose.
    */
-  public Pose2d getBotPose2d()
-  {
+  public Pose2d getBotPose2d() {
     return toPose2D(botpose);
   }
 
@@ -233,22 +187,16 @@ public class LimelightResults
    * @param alliance Alliance color to get the botpose for.
    * @return {@link Pose2d} object representing the botpose.
    */
-  public Pose2d getBotPose2d(DriverStation.Alliance alliance)
-  {
-    if (alliance == DriverStation.Alliance.Red)
-    {
+  public Pose2d getBotPose2d(DriverStation.Alliance alliance) {
+    if (alliance == DriverStation.Alliance.Red) {
       return toPose2D(botpose_wpired);
-    } else
-    {
+    } else {
       return toPose2D(botpose_wpiblue);
     }
   }
 
-  /**
-   * Commonly used but very incomplete set from JSON key from the LL
-   */
-  public String toString()
-  {
+  /** Commonly used but very incomplete set from JSON key from the LL */
+  public String toString() {
     StringBuilder str = new StringBuilder();
     str.append("Partial JSON LimelightResults\n");
     str.append("error " + error + "\n");
@@ -279,5 +227,4 @@ public class LimelightResults
 
     return str.toString();
   }
-
 }
