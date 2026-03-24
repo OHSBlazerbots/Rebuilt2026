@@ -40,27 +40,31 @@ public class ShooterSubsystem extends SubsystemBase {
 
         private SparkFlex shooterLeftMotor = new
         SparkFlex(ShooterConstants.kShooterLeftMotorPort, MotorType.kBrushless);
-       
-        
         private SparkFlex shooterMiddleMotor = new
         SparkFlex(ShooterConstants.kShooterMiddleMotorPort, MotorType.kBrushless);
         private SparkFlex shooterRightMotor = new
         SparkFlex(ShooterConstants.kShooterRightMotorPort, MotorType.kBrushless);
 
+        private SparkFlex angleMakerMotor = new 
+        SparkFlex(ShooterConstants.kAngleMakerPort, MotorType.kBrushless);
+
         private SparkFlexConfig leftConfig = new SparkFlexConfig();
         private SparkFlexConfig middleConfig = new SparkFlexConfig();
         private SparkFlexConfig rightConfig = new SparkFlexConfig();
         private SparkFlexConfig collumnConfig = new SparkFlexConfig();
+        private SparkFlexConfig angleMakerConfig = new SparkFlexConfig();
 
         private SparkClosedLoopController shooterLeftController =
                 shooterLeftMotor.getClosedLoopController();
-
-         private SparkClosedLoopController collumnController = collumnMotor.getClosedLoopController();
+        private SparkClosedLoopController collumnController = collumnMotor.getClosedLoopController();
+        private SparkClosedLoopController angleMakerController = angleMakerMotor.getClosedLoopController();
 
         private RelativeEncoder shooterLeftEncoder;
         private RelativeEncoder shooterMiddleEncoder;
         private RelativeEncoder shooterRightEncoder;
         private RelativeEncoder collumnEncoder;
+        private RelativeEncoder angleMakerEncoder;
+
         private double targetRPM; 
 
 
@@ -70,9 +74,11 @@ public class ShooterSubsystem extends SubsystemBase {
         public ShooterSubsystem() {
                 leftConfig.inverted(false).idleMode(IdleMode.kCoast);
                 collumnConfig.inverted(false).idleMode(IdleMode.kCoast);
+                angleMakerConfig.inverted(false).idleMode(IdleMode.kCoast);
 
                 leftConfig.encoder.positionConversionFactor(1).velocityConversionFactor(1);
                 collumnConfig.encoder.positionConversionFactor(1).velocityConversionFactor(1);
+                angleMakerConfig.encoder.inverted(false).idleMode(IdleMode.kCoast);
 
                 leftConfig.closedLoop
                                 .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
@@ -85,6 +91,19 @@ public class ShooterSubsystem extends SubsystemBase {
                                 .d(0, ClosedLoopSlot.kSlot1)
                                 .velocityFF(1.0 / 5767, ClosedLoopSlot.kSlot1)
                                 .outputRange(-1, 1, ClosedLoopSlot.kSlot1);
+                angleMakerConfig.closedLoop
+                                .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                                .p(0.1)
+                                .i(0)
+                                .d(0)
+                                .outputRange(-1,1)
+                                .p(.0001,ClosedLoopSlot.kSlot1)
+                                .i(0)
+                                .d(0, ClosedLoopSlot.kSlot1)
+                                .velocityFF(1.0/5767, ClosedLoopSlot.kSlot1)
+                                .outputRange(-1, 1, ClosedLoopSlot.kSlot1);
+
+
 
                 
 
@@ -114,11 +133,14 @@ public class ShooterSubsystem extends SubsystemBase {
                 shooterMiddleMotor.configure(middleConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
                 shooterRightMotor.configure(rightConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
                 collumnMotor.configure(collumnConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+                angleMakerMotor.configure(angleMakerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
                 
                 shooterLeftEncoder = shooterLeftMotor.getEncoder();
                 shooterMiddleEncoder = shooterMiddleMotor.getEncoder();
                 shooterRightEncoder = shooterRightMotor.getEncoder();
                 collumnEncoder = collumnMotor.getEncoder();
+                angleMakerEncoder= angleMakerMotor.getEncoder();
                 
 
                 // linearServo = new LinearServo(0, 0, 0);
@@ -127,6 +149,7 @@ public class ShooterSubsystem extends SubsystemBase {
                 SmartDashboard.setDefaultNumber("Shooter/Shooter Middle/Velocity", 0);
                 SmartDashboard.setDefaultNumber("Shooter/Shooter Right/Velocity", 0);
                 SmartDashboard.setDefaultNumber("Shooter/Collumn/Velocity", 0);
+
         }
 
         public void setShooterVelocity(double targetVelocity) {
@@ -147,12 +170,18 @@ public class ShooterSubsystem extends SubsystemBase {
         public void stopColumn(){
                 collumnMotor.stopMotor();
         }
+        public void startAngleMaker(){
+                setAngleMakerVelocity(ShooterConstants.tempPowerforAngle);
+        }
 
 
         public void setColumnVelocity(double targetVelocity) {
                 collumnController.setReference(targetVelocity, ControlType.kPosition, ClosedLoopSlot.kSlot0);
          }
-
+         public void setAngleMakerVelocity(double targetVelocity){
+                angleMakerController.setReference(targetVelocity, ControlType.kPosition, ClosedLoopSlot.kSlot0);
+         }
+        
         // Set the position of the linear servo
         // public void setLinearServoPosition(double targetPosition) {
         //         linearServo.setPosition(targetPosition);
@@ -168,6 +197,7 @@ public class ShooterSubsystem extends SubsystemBase {
                 SmartDashboard.putNumber("Shooter/Shooter Right/Velocity",
                 shooterRightEncoder.getVelocity());
                 SmartDashboard.putNumber("Shooter/Collumn/Velocity", collumnEncoder.getVelocity());
+            
         }
         public boolean isAtSetpoint(){
                 return Math.abs(shooterLeftEncoder.getVelocity()-targetRPM) <= 60.0;

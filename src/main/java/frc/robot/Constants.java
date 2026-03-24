@@ -59,7 +59,9 @@ public final class Constants {
     public static final int kShooterLeftMotorPort = 15;
     public static final int kShooterRightMotorPort = 17;
     public static final int kShooterMiddleMotorPort = 16;
+    public static final int kAngleMakerPort= 18;
     public static final int fullPower = 3000;
+    public static final int tempPowerforAngle =67;
   }
 
   public static class OperatorConstants {

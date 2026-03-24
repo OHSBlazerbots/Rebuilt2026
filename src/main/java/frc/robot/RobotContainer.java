@@ -252,6 +252,8 @@ public class RobotContainer {
         codriverXbox.rightBumper()
                 .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setColumnVelocity(250)))
                 .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.stopColumn()));
+        codriverXbox.povUp()
+                .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.startAngleMaker()));
         // codriverXbox.povUp()
         //         .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.pivotIn()))
         //         .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(0)));
