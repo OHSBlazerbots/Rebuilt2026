@@ -16,6 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class cameraTest {
+    IntakeSubsystem intake;
     DriverCameraSubsystem camera;
   @BeforeEach // this method will run before each test
   void setup() {
