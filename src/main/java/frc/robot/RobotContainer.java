@@ -5,7 +5,6 @@
 package frc.robot;
 
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
-// import frc.robot.subsystems.ClimbingSubsystem;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -58,6 +57,7 @@ public class RobotContainer {
     private final FeederSubsystem feeder;
     private final ShooterSubsystem m_ShooterSubsystem;
     private final DriverCameraSubsystem m_DriverCameraSubsystem;
+    private final lightingSubsystem m_LightingSubsystem;
 
     // Establish a Sendable Chooser that will be able to be sent to the
     // SmartDashboard, allowing selection of desired auto
@@ -135,6 +135,7 @@ public class RobotContainer {
         // m_ClimbingSubsystem = new ClimbingSubsystem();
         m_DriverCameraSubsystem = new DriverCameraSubsystem();
         feeder = new FeederSubsystem();
+         m_LightingSubsystem = new lightingSubsystem();
         // Configure the trigger bindings
         maxShootAuto = new shootCommand(m_ShooterSubsystem, feeder, drivebase, ShooterConstants.fullPower);
         intake = new intakeCommand(m_IntakeSubsystem);
