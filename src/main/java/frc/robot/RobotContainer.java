@@ -6,7 +6,7 @@ package frc.robot;
 
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import frc.robot.subsystems.*;
-import frc.robot.commands.*;
+// import frc.robot.commands.*;
 import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -48,26 +48,26 @@ public class RobotContainer {
     final CommandXboxController driverXbox = new CommandXboxController(0);
     final CommandXboxController codriverXbox = new CommandXboxController(1);
 
-    private final IntakeSubsystem m_IntakeSubsystem;
+//     private final IntakeSubsystem m_IntakeSubsystem;
 
     // The robot's subsystems and commands are defined here...
     private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
             "swerve/neo"));
     // private final ClimbingSubsystem m_ClimbingSubsystem;
-    private final FeederSubsystem feeder;
-    private final ShooterSubsystem m_ShooterSubsystem;
-    private final DriverCameraSubsystem m_DriverCameraSubsystem;
+//     private final FeederSubsystem feeder;
+//     private final ShooterSubsystem m_ShooterSubsystem;
+//     private final DriverCameraSubsystem m_DriverCameraSubsystem;
     private final lightingSubsystem m_LightingSubsystem;
 
     // Establish a Sendable Chooser that will be able to be sent to the
     // SmartDashboard, allowing selection of desired auto
     private final SendableChooser<Command> autoChooser = new SendableChooser<>();
-    private final Command maxShootAuto;
-    private final Command maxShootAutoWithTimeout;
-    private final Command rightAndShoot;
-    private final Command leftAndShoot;
-    private final Command justShoot;
-    private final Command intake;
+//     private final Command maxShootAuto;
+//     private final Command maxShootAutoWithTimeout;
+//     private final Command rightAndShoot;
+//     private final Command leftAndShoot;
+//     private final Command justShoot;
+//     private final Command intake;
 
     /**
      * Converts driver input into a field-relative ChassisSpeeds that is controlled
@@ -129,25 +129,25 @@ public class RobotContainer {
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
-        m_ShooterSubsystem = new ShooterSubsystem();
+        // m_ShooterSubsystem = new ShooterSubsystem();
 
-        m_IntakeSubsystem = new IntakeSubsystem();
-        // m_ClimbingSubsystem = new ClimbingSubsystem();
-        m_DriverCameraSubsystem = new DriverCameraSubsystem();
-        feeder = new FeederSubsystem();
+        // m_IntakeSubsystem = new IntakeSubsystem();
+        // // m_ClimbingSubsystem = new ClimbingSubsystem();
+        // m_DriverCameraSubsystem = new DriverCameraSubsystem();
+        // feeder = new FeederSubsystem();
          m_LightingSubsystem = new lightingSubsystem();
-        // Configure the trigger bindings
-        maxShootAuto = new shootCommand(m_ShooterSubsystem, feeder, drivebase, ShooterConstants.fullPower);
-        intake = new intakeCommand(m_IntakeSubsystem);
+        // // Configure the trigger bindings
+        // maxShootAuto = new shootCommand(m_ShooterSubsystem, feeder, drivebase, ShooterConstants.fullPower);
+        // intake = new intakeCommand(m_IntakeSubsystem);
 
-        maxShootAutoWithTimeout = new shootCommand(m_ShooterSubsystem, feeder, drivebase, ShooterConstants.fullPower).withTimeout(20);
-        rightAndShoot = drivebase.getAutonomousCommand("Right and Shoot");
-        leftAndShoot = drivebase.getAutonomousCommand("Left and Shoot");
-        justShoot = drivebase.getAutonomousCommand("Shoot");
+        // maxShootAutoWithTimeout = new shootCommand(m_ShooterSubsystem, feeder, drivebase, ShooterConstants.fullPower).withTimeout(20);
+        // rightAndShoot = drivebase.getAutonomousCommand("Right and Shoot");
+        // leftAndShoot = drivebase.getAutonomousCommand("Left and Shoot");
+        // justShoot = drivebase.getAutonomousCommand("Shoot");
 
-        NamedCommands.registerCommand("Shoot Auto", maxShootAutoWithTimeout);
-        NamedCommands.registerCommand("column",Commands.runOnce(() -> m_ShooterSubsystem.setColumnVelocity(2670)));
-        NamedCommands.registerCommand("shoot",Commands.runOnce(() -> m_ShooterSubsystem.setShooterVelocity(2670)));
+        // NamedCommands.registerCommand("Shoot Auto", maxShootAutoWithTimeout);
+        // NamedCommands.registerCommand("column",Commands.runOnce(() -> m_ShooterSubsystem.setColumnVelocity(2670)));
+        // NamedCommands.registerCommand("shoot",Commands.runOnce(() -> m_ShooterSubsystem.setShooterVelocity(2670)));
 
         configureBindings();
         DriverStation.silenceJoystickConnectionWarning(true);
@@ -162,9 +162,9 @@ public class RobotContainer {
         // stop
         autoChooser.addOption("Drive Forward", Commands.runOnce(drivebase::zeroGyroWithAlliance).withTimeout(.2)
                 .andThen(drivebase.driveForward().withTimeout(1)));
-        autoChooser.addOption("Right and Shoot", rightAndShoot);
-        autoChooser.addOption("Left and Shoot", leftAndShoot);
-        autoChooser.addOption("Shoot", justShoot);
+        // autoChooser.addOption("Right and Shoot", rightAndShoot);
+        // autoChooser.addOption("Left and Shoot", leftAndShoot);
+        // autoChooser.addOption("Shoot", justShoot);
 
         // Put the autoChooser on the SmartDashboard
         SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -222,7 +222,7 @@ public class RobotContainer {
 
         }
         // makes auto with pov left for drivers xbox controller
-        codriverXbox.y().whileTrue(maxShootAuto);
+        // codriverXbox.y().whileTrue(maxShootAuto);
         if (DriverStation.isTest()) {
             drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity); // Overrides drive command above!
 
@@ -239,20 +239,20 @@ public class RobotContainer {
             driverXbox.rightBumper().onTrue(Commands.none());
         }
 
-        codriverXbox.leftTrigger()
-                .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.runBackwards()))
-                .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.stopShooter()));
-        codriverXbox.rightTrigger()
-                .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.startShooter()))
-                .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.stopShooter()));
+        // codriverXbox.leftTrigger()
+        //         .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.runBackwards()))
+        //         .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.stopShooter()));
+        // codriverXbox.rightTrigger()
+        //         .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.startShooter()))
+        //         .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.stopShooter()));
 
-        codriverXbox.leftBumper()
-                .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setColumnVelocity(-250)))
-                .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.stopColumn()));
+        // codriverXbox.leftBumper()
+        //         .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setColumnVelocity(-250)))
+        //         .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.stopColumn()));
 
-        codriverXbox.rightBumper()
-                .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setColumnVelocity(250)))
-                .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.stopColumn()));
+        // codriverXbox.rightBumper()
+        //         .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setColumnVelocity(250)))
+        //         .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.stopColumn()));
         // codriverXbox.povUp()
         //         .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.pivotIn()))
         //         .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(0)));
@@ -266,13 +266,13 @@ public class RobotContainer {
         //         .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.rollersOut()))
         //         .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.stopRollers()));
    
-        codriverXbox.x().whileTrue(intake);
-        codriverXbox.rightBumper()
-                .onTrue(Commands.runOnce(() -> feeder.setRollerVelocity(1000)))
-                .onFalse(Commands.runOnce(() -> feeder.setRollerVelocity(0)));
-        codriverXbox.leftBumper()
-                .onTrue(Commands.runOnce(() -> feeder.setRollerVelocity(-1000)))
-                .onFalse(Commands.runOnce(() -> feeder.setRollerVelocity(0)));
+        // codriverXbox.x().whileTrue(intake);
+        // codriverXbox.rightBumper()
+        //         .onTrue(Commands.runOnce(() -> feeder.setRollerVelocity(1000)))
+        //         .onFalse(Commands.runOnce(() -> feeder.setRollerVelocity(0)));
+        // codriverXbox.leftBumper()
+        //         .onTrue(Commands.runOnce(() -> feeder.setRollerVelocity(-1000)))
+        //         .onFalse(Commands.runOnce(() -> feeder.setRollerVelocity(0)));
 
     }
 

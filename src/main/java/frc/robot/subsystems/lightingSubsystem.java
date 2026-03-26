@@ -9,18 +9,20 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class lightingSubsystem extends SubsystemBase {
     AddressableLED m_led;
     AddressableLEDBuffer m_ledBuffer;
+    private int rainbowPixelHue = 0;
 
     public lightingSubsystem() {
         m_led = new AddressableLED(3);
         // Reuse buffer
         // Default to a length of 60, start empty output
         // Length is expensive to set, so only set it once, then just update data
-        m_ledBuffer = new AddressableLEDBuffer(60);
+        m_ledBuffer = new AddressableLEDBuffer(120);
         m_led.setLength(m_ledBuffer.getLength());
         // Set the data
+        
         m_led.setData(m_ledBuffer);
         m_led.start();
-        this.setPink();
+        // this.setPink();
     }
 
     public void setPink() {
@@ -35,12 +37,24 @@ public class lightingSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        setPink();
+        rainbow();
+        m_led.setData(m_ledBuffer);
     }
 
     public void pinkWhiteStrobe() {
         LEDPattern gradient = LEDPattern.gradient(LEDPattern.GradientType.kContinuous, Color.kPink, Color.kWhite);
         gradient.applyTo(m_ledBuffer);
         m_led.setData(m_ledBuffer);
+    }
+
+     public void rainbow() {
+        for (int i = 0; i < m_ledBuffer.getLength(); i++) {
+            final int hue = (rainbowPixelHue + (i * 180 / m_ledBuffer.getLength())) % 180;
+            m_ledBuffer.setHSV(i, hue, 255, 128);
+        }
+
+        // Increment hue for animation
+        rainbowPixelHue += 3;
+        rainbowPixelHue %= 180; 
     }
 }
