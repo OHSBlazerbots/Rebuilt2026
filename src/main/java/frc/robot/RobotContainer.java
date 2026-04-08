@@ -239,41 +239,45 @@ public class RobotContainer {
             driverXbox.rightBumper().onTrue(Commands.none());
         }
 
+        //shooter and anglemaker
         codriverXbox.leftTrigger()
-                .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.runBackwards()))
+                .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.trenchShot()))
                 .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.stopShooter()));
         codriverXbox.rightTrigger()
-                .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.startShooter()))
+                .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.trenchShotReversed()))
                 .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.stopShooter()));
+        // codriverXbox.leftTrigger()
+        //         .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.backwardAngleMaker()))
+        //         .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.stopShooter()));
+        // codriverXbox.rightTrigger()
+        //         .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.startAngleMaker()))
+        //         .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.stopShooter()));
         
-        codriverXbox.leftTrigger()
-                .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setKickerVelocity(-ShooterConstants.angleRPM)))
-                .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.setKickerVelocity(ShooterConstants.angleRPM)));
-        codriverXbox.rightTrigger()
-                .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.startShooter()))
-                .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.stopShooter()));
-
+        //kicker and feeder
         codriverXbox.leftBumper()
-                .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setKickerVelocity(-250)))
+                .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setKickerVelocity(-2000)))
                 .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.stopKicker()));
         codriverXbox.rightBumper()
-                .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setKickerVelocity(250)))
+                .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setKickerVelocity(2000)))
                 .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.stopKicker()));
         codriverXbox.rightBumper()
-                .onTrue(Commands.runOnce(() -> feeder.setRollerVelocity(1000)))
+                .onTrue(Commands.runOnce(() -> feeder.setRollerVelocity(2000)))
                 .onFalse(Commands.runOnce(() -> feeder.setRollerVelocity(0)));
         codriverXbox.leftBumper()
-                .onTrue(Commands.runOnce(() -> feeder.setRollerVelocity(-1000)))
+                .onTrue(Commands.runOnce(() -> feeder.setRollerVelocity(-2000)))
                 .onFalse(Commands.runOnce(() -> feeder.setRollerVelocity(0)));
 
+        //intake
         codriverXbox.povUp()
-                .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.startAngleMaker()));
-        codriverXbox.povUp()
+                // .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(500)))
+                // .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(0)));
                 .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.pivotIn()))
-                .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(0)));
+                .onFalse(Commands.none());
         codriverXbox.povDown()
                 .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.pivotOut()))
-                .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(0)));
+                .onFalse(Commands.none());
+                // .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(-500)))
+                // .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(0)));
         codriverXbox.x()
                 .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.rollersIn()))
                 .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.stopRollers()));

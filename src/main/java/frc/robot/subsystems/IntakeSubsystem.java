@@ -125,9 +125,9 @@ public class IntakeSubsystem extends SubsystemBase {
 
         rollerMotor.configure(rollerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         pivotMotor.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        secondaryPivotConfig.follow(secondaryPivotMotor.getDeviceId(), true);
+        secondaryPivotConfig.follow(pivotMotor.getDeviceId(), true);
         secondaryPivotMotor.configure(secondaryPivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        secondaryPivotEncoder = secondaryPivotMotor.getEncoder();
+        // secondaryPivotEncoder = secondaryPivotMotor.getEncoder();
         
 
 
