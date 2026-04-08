@@ -255,29 +255,29 @@ public class RobotContainer {
         
         //kicker and feeder
         codriverXbox.leftBumper()
-                .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setKickerVelocity(-2000)))
+                .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setKickerVelocity(-3500)))
                 .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.stopKicker()));
         codriverXbox.rightBumper()
-                .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setKickerVelocity(2000)))
+                .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setKickerVelocity(3500)))
                 .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.stopKicker()));
         codriverXbox.rightBumper()
-                .onTrue(Commands.runOnce(() -> feeder.setRollerVelocity(2000)))
+                .onTrue(Commands.runOnce(() -> feeder.setRollerVelocity(2500)))
                 .onFalse(Commands.runOnce(() -> feeder.setRollerVelocity(0)));
         codriverXbox.leftBumper()
-                .onTrue(Commands.runOnce(() -> feeder.setRollerVelocity(-2000)))
+                .onTrue(Commands.runOnce(() -> feeder.setRollerVelocity(-2500)))
                 .onFalse(Commands.runOnce(() -> feeder.setRollerVelocity(0)));
 
         //intake
         codriverXbox.povUp()
-                // .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(500)))
-                // .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(0)));
-                .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.pivotIn()))
-                .onFalse(Commands.none());
+                .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(500)))
+                .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(0)));
+                // .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.pivotIn()))
+                // .onFalse(Commands.none());
         codriverXbox.povDown()
-                .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.pivotOut()))
-                .onFalse(Commands.none());
-                // .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(-500)))
-                // .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(0)));
+                // .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.pivotOut()))
+                // .onFalse(Commands.none());
+                .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(-500)))
+                .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(0)));
         codriverXbox.x()
                 .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.rollersIn()))
                 .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.stopRollers()));

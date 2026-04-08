@@ -148,7 +148,7 @@ public class ShooterSubsystem extends SubsystemBase {
         public void setShooterVelocity(double targetShooterVelocity) {
                 shooterLeftController.setSetpoint(targetShooterVelocity, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
                 shooterMiddleController.setSetpoint(targetShooterVelocity, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
-                shooterRightController.setSetpoint(targetShooterVelocity, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
+                shooterRightController.setSetpoint(-targetShooterVelocity, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
 
         }
 
