@@ -29,14 +29,15 @@ public class shootCommand extends Command {
         timer.start();
 
         m_Shooter.setShooterVelocity(shooterspeed);
+        m_Shooter.startAngleMaker();
     }
 
     @Override
     public void execute() {
 
-        if (m_Shooter.isAtSetpoint(3000)) {
-            m_Shooter.setKickerVelocity(250);
-            m_Feeder.setRollerVelocity(1000);
+        if (m_Shooter.isAtSetpoint(6500)) {
+            m_Shooter.startKicker();
+            m_Feeder.startRoller();
         }
     }
 
@@ -44,7 +45,7 @@ public class shootCommand extends Command {
     public void end(boolean interrupted) {
         m_Shooter.stopShooter();
         m_Shooter.stopKicker();
-        m_Feeder.setRollerVelocity(0);
+        m_Feeder.stopRoller();
 
         timer.stop();
         System.out.println("Shooting done");

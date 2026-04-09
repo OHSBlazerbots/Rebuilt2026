@@ -81,6 +81,15 @@ public class FeederSubsystem extends SubsystemBase {
     public void setRollerVelocity(double targetVelocity) {
         rollerController.setReference(targetVelocity, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
     }
+    public void startRoller(){
+        setRollerVelocity(FeederConstants.feederRPM);
+    }
+    public void reverseRoller(){
+        setRollerVelocity(-FeederConstants.feederRPM);
+    }
+    public void stopRoller(){
+        rollerMotor.stopMotor();
+    }
 
    @Override
     public void periodic() {

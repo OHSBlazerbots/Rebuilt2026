@@ -137,17 +137,17 @@ public class RobotContainer {
         feeder = new FeederSubsystem();
          m_LightingSubsystem = new lightingSubsystem();
         // Configure the trigger bindings
-        maxShootAuto = new shootCommand(m_ShooterSubsystem, feeder, drivebase, ShooterConstants.fullPower);
+        maxShootAuto = new shootCommand(m_ShooterSubsystem, feeder, drivebase, ShooterConstants.trenchRPM);
         intake = new intakeCommand(m_IntakeSubsystem);
 
-        maxShootAutoWithTimeout = new shootCommand(m_ShooterSubsystem, feeder, drivebase, ShooterConstants.fullPower).withTimeout(20);
+        maxShootAutoWithTimeout = new shootCommand(m_ShooterSubsystem, feeder, drivebase, ShooterConstants.trenchRPM).withTimeout(20);
         rightAndShoot = drivebase.getAutonomousCommand("Right and Shoot");
         leftAndShoot = drivebase.getAutonomousCommand("Left and Shoot");
         justShoot = drivebase.getAutonomousCommand("Shoot");
 
         NamedCommands.registerCommand("Shoot Auto", maxShootAutoWithTimeout);
-        NamedCommands.registerCommand("column",Commands.runOnce(() -> m_ShooterSubsystem.setKickerVelocity(2670)));
-        NamedCommands.registerCommand("shoot",Commands.runOnce(() -> m_ShooterSubsystem.setShooterVelocity(2670)));
+        NamedCommands.registerCommand("kicker",Commands.runOnce(() -> m_ShooterSubsystem.startKicker()));
+        NamedCommands.registerCommand("shoot",Commands.runOnce(() -> m_ShooterSubsystem.trenchShot()));
 
         configureBindings();
         DriverStation.silenceJoystickConnectionWarning(true);
@@ -246,34 +246,28 @@ public class RobotContainer {
         codriverXbox.rightTrigger()
                 .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.trenchShotReversed()))
                 .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.stopShooter()));
-        // codriverXbox.leftTrigger()
-        //         .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.backwardAngleMaker()))
-        //         .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.stopShooter()));
-        // codriverXbox.rightTrigger()
-        //         .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.startAngleMaker()))
-        //         .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.stopShooter()));
         
         //kicker and feeder
         codriverXbox.leftBumper()
-                .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setKickerVelocity(-3500)))
+                .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.startKicker()))
                 .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.stopKicker()));
         codriverXbox.rightBumper()
-                .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.setKickerVelocity(3500)))
+                .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.reverseKicker()))
                 .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.stopKicker()));
         codriverXbox.rightBumper()
-                .onTrue(Commands.runOnce(() -> feeder.setRollerVelocity(2500)))
-                .onFalse(Commands.runOnce(() -> feeder.setRollerVelocity(0)));
+                .onTrue(Commands.runOnce(() -> feeder.startRoller()))
+                .onFalse(Commands.runOnce(() -> feeder.stopRoller()));
         codriverXbox.leftBumper()
-                .onTrue(Commands.runOnce(() -> feeder.setRollerVelocity(-2500)))
-                .onFalse(Commands.runOnce(() -> feeder.setRollerVelocity(0)));
+                .onTrue(Commands.runOnce(() -> feeder.reverseRoller()))
+                .onFalse(Commands.runOnce(() -> feeder.stopRoller()));
 
         //intake
-        codriverXbox.povUp()
+        codriverXbox.povUp()//moves down
                 .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(500)))
                 .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(0)));
                 // .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.pivotIn()))
                 // .onFalse(Commands.none());
-        codriverXbox.povDown()
+        codriverXbox.povDown()//moves up
                 // .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.pivotOut()))
                 // .onFalse(Commands.none());
                 .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.setPivotVelocity(-500)))

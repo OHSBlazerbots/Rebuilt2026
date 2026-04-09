@@ -38,8 +38,6 @@ public final class Constants {
   // }
 
   public static final class DrivebaseConstants {
-
-    // Hold time on motor brakes when disabled
     public static final double WHEEL_LOCK_TIME = 10; // seconds
   }
 
@@ -52,6 +50,7 @@ public final class Constants {
   }
   public static final class FeederConstants{
     public static final int primaryCanID = 12;
+    public static final int feederRPM = 2500;
   }
 
   public static final class ShooterConstants {
@@ -60,10 +59,11 @@ public final class Constants {
     public static final int kShooterRightMotorPort = 15;
     public static final int kShooterMiddleMotorPort = 16;
     public static final int kAngleMakerPort= 9;
-    public static final int fullPower = 3000;
+
     public static final int trenchRPM = 6534;
-    public static final int hubRPM = 6011;
+    public static final int closeRPM = 6011;
     public static final int angleRPM = 6534;
+    public static final int kickerRPM = 3500;
     public static final int rpmTolerance = 163;
     public static final double firingDuration = 0.3;
   }
@@ -82,6 +82,6 @@ public final class Constants {
     public static final int secondaryPivotCanID = 10;
     public static final double pivotForwardSoftLimitRotations = 0.65;
     public static final double pivotReverseSoftLimitRotations = 0;
-    public static final double maxRollerSpeed= 2000;
+    public static final double maxRollerSpeed= 2500;
   }
 }

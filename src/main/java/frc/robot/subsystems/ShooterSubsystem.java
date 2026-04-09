@@ -179,18 +179,23 @@ public class ShooterSubsystem extends SubsystemBase {
         }
 
         public void closeShot() {
-                setShooterVelocity(ShooterConstants.hubRPM);
+                setShooterVelocity(ShooterConstants.closeRPM);
                 setAngleMakerVelocity(ShooterConstants.angleRPM);
         }
 
-        public void startShooter() {
-                setShooterVelocity(ShooterConstants.fullPower);
+        public void closeShotReversed() {
+                setShooterVelocity(-ShooterConstants.closeRPM);
+                setAngleMakerVelocity(-ShooterConstants.angleRPM);
         }
 
-        public void runBackwards() {
-                setShooterVelocity(-ShooterConstants.fullPower);
+
+        public void startKicker(){
+                setKickerVelocity(ShooterConstants.kickerRPM);
         }
 
+         public void reverseKicker(){
+                setKickerVelocity(-ShooterConstants.kickerRPM);
+        }
 
         public void stopKicker() {
                 kickerMotor.stopMotor();

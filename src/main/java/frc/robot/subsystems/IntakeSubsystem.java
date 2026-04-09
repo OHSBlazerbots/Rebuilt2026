@@ -18,23 +18,20 @@ import com.revrobotics.spark.config.SparkFlexConfig;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.Constants;
+// import frc.robot.Constants;
 import frc.robot.Constants.IntakeConstants;
 
-
 public class IntakeSubsystem extends SubsystemBase {
-
-    private SparkFlex rollerMotor = new SparkFlex(IntakeConstants.rollerCanID,
-            MotorType.kBrushless);
+    // roller
+    private SparkFlex rollerMotor = new SparkFlex(IntakeConstants.rollerCanID, MotorType.kBrushless);
     private SparkFlexConfig rollerConfig = new SparkFlexConfig();
     private SparkClosedLoopController rollerController = rollerMotor.getClosedLoopController();
-    
-    private SparkFlex pivotMotor = new SparkFlex(IntakeConstants.pivotCanID,
-            MotorType.kBrushless);
+
+    // pivot
+    private SparkFlex pivotMotor = new SparkFlex(IntakeConstants.pivotCanID, MotorType.kBrushless);
     private SparkFlexConfig pivotConfig = new SparkFlexConfig();
     private SparkClosedLoopController pivotController = pivotMotor.getClosedLoopController();
-    private SparkFlex secondaryPivotMotor = new SparkFlex(IntakeConstants.secondaryPivotCanID,
-             MotorType.kBrushless);
+    private SparkFlex secondaryPivotMotor = new SparkFlex(IntakeConstants.secondaryPivotCanID, MotorType.kBrushless);
     private SparkFlexConfig secondaryPivotConfig = new SparkFlexConfig();
 
     private SparkLimitSwitch forwardLimitSwitch;
@@ -45,91 +42,69 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public IntakeSubsystem() {
 
+        //roller
         rollerConfig
                 .inverted(true)
                 .idleMode(IdleMode.kCoast);
-
         rollerEncoder = rollerMotor.getEncoder();
+        rollerConfig.encoder
+                .positionConversionFactor(1)
+                .velocityConversionFactor(1);
+        rollerConfig.closedLoop
+                .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                .p(0.1)
+                .i(0)
+                .d(0)
+                .outputRange(-1, 1)
+                .p(0.0001, ClosedLoopSlot.kSlot1)
+                .i(0, ClosedLoopSlot.kSlot1)
+                .d(0, ClosedLoopSlot.kSlot1)
+                .velocityFF(1.0 / 5767, ClosedLoopSlot.kSlot1)
+                .outputRange(-1, 1, ClosedLoopSlot.kSlot1);
+        rollerMotor.configure(rollerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-        rollerConfig.limitSwitch
-                .forwardLimitSwitchEnabled(false)
-                .reverseLimitSwitchEnabled(false);
-        
-        
-                pivotConfig
-                .inverted(true)
-                .idleMode(IdleMode.kBrake);
-
+        //pivot
         forwardLimitSwitch = pivotMotor.getForwardLimitSwitch();
         reverseLimitSwitch = pivotMotor.getReverseLimitSwitch();
         pivotEncoder = pivotMotor.getAbsoluteEncoder();
+        
+        pivotConfig
+                .inverted(false)
+                .idleMode(IdleMode.kBrake);
 
         pivotConfig.limitSwitch
                 .forwardLimitSwitchType(Type.kNormallyOpen)
                 .forwardLimitSwitchEnabled(true)
                 .reverseLimitSwitchType(Type.kNormallyOpen)
                 .reverseLimitSwitchEnabled(true);
-        
+
         pivotConfig.softLimit
                 .forwardSoftLimit(IntakeConstants.pivotForwardSoftLimitRotations)
                 .forwardSoftLimitEnabled(true)
                 .reverseSoftLimit(IntakeConstants.pivotReverseSoftLimitRotations)
                 .reverseSoftLimitEnabled(true);
-        
 
-        /*
-         * Configure the encoder. For this specific example, we are using the
-         * integrated encoder of the NEO, and we don't need to configure it. If
-         * needed, we can adjust values like the position or velocity conversion
-         * factors.
-         */
-        rollerConfig.encoder
+        pivotConfig.absoluteEncoder
                 .positionConversionFactor(1)
-                .velocityConversionFactor(1);
-        pivotConfig.encoder
-            .positionConversionFactor(1)
-            .velocityConversionFactor(1);        
+                .velocityConversionFactor(1)
+                .inverted(false);
 
-        /*
-         * Configure the closed loop controller. We want to make sure we set the
-         * feedback sensor as the primary encoder.
-         */
-        rollerConfig.closedLoop
-                .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-                // Set PID values for position control. We don't need to pass a closed loop
-                // slot, as it will default to slot 0.
-                .p(0.1)
-                .i(0)
-                .d(0)
-                .outputRange(-1, 1)
-                // Set PID values for velocity control in slot 1
-                .p(0.0001, ClosedLoopSlot.kSlot1)
-                .i(0, ClosedLoopSlot.kSlot1)
-                .d(0, ClosedLoopSlot.kSlot1)
-                .velocityFF(1.0 / 5767, ClosedLoopSlot.kSlot1)
-                .outputRange(-1, 1, ClosedLoopSlot.kSlot1);
         pivotConfig.closedLoop
                 .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
-                // Set PID values for position control. We don't need to pass a closed loop
-                // slot, as it will default to slot 0.
                 .p(0.1)
                 .i(0)
                 .d(0)
                 .outputRange(-1, 1)
-                // Set PID values for velocity control in slot 1
                 .p(0.0001, ClosedLoopSlot.kSlot1)
                 .i(0, ClosedLoopSlot.kSlot1)
                 .d(0, ClosedLoopSlot.kSlot1)
                 .velocityFF(1.0 / 5767, ClosedLoopSlot.kSlot1)
                 .outputRange(-1, 1, ClosedLoopSlot.kSlot1);
 
-        rollerMotor.configure(rollerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         pivotMotor.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        secondaryPivotConfig.follow(pivotMotor.getDeviceId(), true);
-        secondaryPivotMotor.configure(secondaryPivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        // secondaryPivotEncoder = secondaryPivotMotor.getEncoder();
-        
-
+        secondaryPivotConfig.follow(pivotMotor.getDeviceId(), false);
+        secondaryPivotMotor.configure(secondaryPivotConfig, ResetMode.kResetSafeParameters,PersistMode.kPersistParameters);
+        secondaryPivotEncoder = secondaryPivotMotor.getEncoder();
 
         SmartDashboard.setDefaultNumber("Intake/Pivot/Position", 0);
         SmartDashboard.setDefaultNumber("Intake/Pivot/Velocity", 0);
@@ -144,30 +119,36 @@ public class IntakeSubsystem extends SubsystemBase {
     public void setPivotPosition(double targetPosition) {
         pivotController.setReference(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
     }
-    public void pivotOut(){
+
+    public void pivotOut() {
         setPivotPosition(IntakeConstants.pivotForwardSoftLimitRotations);
     }
-    public void pivotIn(){
+
+    public void pivotIn() {
         setPivotPosition(IntakeConstants.pivotReverseSoftLimitRotations);
     }
-    public void rollersIn(){
+
+    public void rollersIn() {
         setRollerVelocity(IntakeConstants.maxRollerSpeed);
     }
-    public void rollersOut(){
+
+    public void rollersOut() {
         setRollerVelocity(-IntakeConstants.maxRollerSpeed);
     }
-    public void stopRollers(){
+
+    public void stopRollers() {
         setRollerVelocity(0);
     }
-    
+
     public void setRollerVelocity(double targetVelocity) {
         rollerController.setReference(targetVelocity, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
     }
-    public boolean isDown(){
-        return Math.abs(pivotEncoder.getPosition()-IntakeConstants.pivotForwardSoftLimitRotations) <= 5.00;
+
+    public boolean isDown() {
+        return Math.abs(pivotEncoder.getPosition() - IntakeConstants.pivotForwardSoftLimitRotations) <= 5.00;
     }
 
-   @Override
+    @Override
     public void periodic() {
         // Display data from SPARK onto the dashboard
         SmartDashboard.putBoolean("Intake/Pivot/Forward Limit", forwardLimitSwitch.isPressed());
@@ -179,6 +160,4 @@ public class IntakeSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Intake/Roller/Applied Output", rollerMotor.getAppliedOutput());
     }
 
-}    
-    
-
+}
