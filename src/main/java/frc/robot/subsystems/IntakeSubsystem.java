@@ -42,7 +42,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public IntakeSubsystem() {
 
-        //roller
+        // roller
         rollerConfig
                 .inverted(true)
                 .idleMode(IdleMode.kCoast);
@@ -63,26 +63,21 @@ public class IntakeSubsystem extends SubsystemBase {
                 .outputRange(-1, 1, ClosedLoopSlot.kSlot1);
         rollerMotor.configure(rollerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-        //pivot
+        // pivot
         forwardLimitSwitch = pivotMotor.getForwardLimitSwitch();
         reverseLimitSwitch = pivotMotor.getReverseLimitSwitch();
         pivotEncoder = pivotMotor.getAbsoluteEncoder();
-        
+
         pivotConfig
                 .inverted(false)
                 .idleMode(IdleMode.kBrake);
 
-        pivotConfig.limitSwitch
-                .forwardLimitSwitchType(Type.kNormallyOpen)
-                .forwardLimitSwitchEnabled(true)
-                .reverseLimitSwitchType(Type.kNormallyOpen)
-                .reverseLimitSwitchEnabled(true);
 
-        pivotConfig.softLimit
-                .forwardSoftLimit(IntakeConstants.pivotForwardSoftLimitRotations)
-                .forwardSoftLimitEnabled(true)
-                .reverseSoftLimit(IntakeConstants.pivotReverseSoftLimitRotations)
-                .reverseSoftLimitEnabled(true);
+        // pivotConfig.softLimit
+        //         .forwardSoftLimit(IntakeConstants.pivotForwardSoftLimitRotations)
+        //         .forwardSoftLimitEnabled(true)
+        //         .reverseSoftLimit(IntakeConstants.pivotReverseSoftLimitRotations)
+        //         .reverseSoftLimitEnabled(true);
 
         pivotConfig.absoluteEncoder
                 .positionConversionFactor(1)
@@ -102,7 +97,7 @@ public class IntakeSubsystem extends SubsystemBase {
                 .outputRange(-1, 1, ClosedLoopSlot.kSlot1);
 
         pivotMotor.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        secondaryPivotConfig.follow(pivotMotor.getDeviceId(), false);
+        secondaryPivotConfig.follow(pivotMotor.getDeviceId(), true);
         secondaryPivotMotor.configure(secondaryPivotConfig, ResetMode.kResetSafeParameters,PersistMode.kPersistParameters);
         secondaryPivotEncoder = secondaryPivotMotor.getEncoder();
 
