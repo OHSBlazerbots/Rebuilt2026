@@ -60,10 +60,10 @@ public final class Constants {
     public static final int kShooterMiddleMotorPort = 16;
     public static final int kAngleMakerPort= 9;
 
-    public static final int trenchRPM = 6534;
+    public static final int trenchRPM = 6784;
     public static final int closeRPM = 6011;
-    public static final int angleRPM = 6534;
-    public static final int kickerRPM = 3500;
+    public static final int angleRPM = 6784;
+    public static final int kickerRPM = 6000;
     public static final int rpmTolerance = 163;
     public static final double firingDuration = 0.3;
   }

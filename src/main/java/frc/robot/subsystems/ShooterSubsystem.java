@@ -62,7 +62,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
         public ShooterSubsystem() {
                 shooterConfig.inverted(false).idleMode(IdleMode.kCoast);
-                kickerConfig.inverted(false).idleMode(IdleMode.kCoast);
+                kickerConfig.inverted(true).idleMode(IdleMode.kCoast);
                 angleMakerConfig.inverted(false).idleMode(IdleMode.kCoast);
 
                 shooterConfig.encoder.positionConversionFactor(1).velocityConversionFactor(1);
