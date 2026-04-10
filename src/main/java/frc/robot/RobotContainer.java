@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -58,6 +59,8 @@ public class RobotContainer {
     private final ShooterSubsystem m_ShooterSubsystem;
     private final DriverCameraSubsystem m_DriverCameraSubsystem;
     private final lightingSubsystem m_LightingSubsystem;
+//     private final lightingSubsystem m_LightingSubsystem2;
+
 
     // Establish a Sendable Chooser that will be able to be sent to the
     // SmartDashboard, allowing selection of desired auto
@@ -135,7 +138,8 @@ public class RobotContainer {
         // m_ClimbingSubsystem = new ClimbingSubsystem();
         m_DriverCameraSubsystem = new DriverCameraSubsystem();
         feeder = new FeederSubsystem();
-         m_LightingSubsystem = new lightingSubsystem();
+         m_LightingSubsystem = new lightingSubsystem(0);
+        //  m_LightingSubsystem2 = new lightingSubsystem(1);
         // Configure the trigger bindings
         maxShootAuto = new shootCommand(m_ShooterSubsystem, feeder, drivebase, ShooterConstants.trenchRPM);
         intake = new intakeCommand(m_IntakeSubsystem);
@@ -145,9 +149,13 @@ public class RobotContainer {
         leftAndShoot = drivebase.getAutonomousCommand("Left and Shoot");
         justShoot = drivebase.getAutonomousCommand("Shoot");
 
-        NamedCommands.registerCommand("Shoot Auto", maxShootAutoWithTimeout);
+        NamedCommands.registerCommand("Shoot Auto", new ScheduleCommand(maxShootAuto));
+
+        NamedCommands.registerCommand("Intake down",Commands.runOnce(()-> m_IntakeSubsystem.pivotOut()));
+        NamedCommands.registerCommand("Rollers move in", Commands.runOnce(()-> m_IntakeSubsystem.rollersIn()));
         NamedCommands.registerCommand("kicker",Commands.runOnce(() -> m_ShooterSubsystem.startKicker()));
-        NamedCommands.registerCommand("shoot",Commands.runOnce(() -> m_ShooterSubsystem.trenchShot()));
+        NamedCommands.registerCommand("shoot",Commands.runOnce(() -> m_ShooterSubsystem.trenchShotReversed()));
+        
 
         configureBindings();
         DriverStation.silenceJoystickConnectionWarning(true);
@@ -241,11 +249,9 @@ public class RobotContainer {
 
         //shooter and anglemaker
         codriverXbox.leftTrigger()
-                .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.trenchShot()))
-                .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.stopShooter()));
+                .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.stopShooter()));
         codriverXbox.rightTrigger()
-                .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.trenchShotReversed()))
-                .onFalse(Commands.runOnce(() -> m_ShooterSubsystem.stopShooter()));
+                .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.trenchShotReversed()));
         
         //kicker and feeder
         codriverXbox.leftBumper()
@@ -278,6 +284,8 @@ public class RobotContainer {
         codriverXbox.b()
                 .onTrue(Commands.runOnce(() -> m_IntakeSubsystem.rollersOut()))
                 .onFalse(Commands.runOnce(() -> m_IntakeSubsystem.stopRollers()));
+        codriverXbox.a()
+                .onTrue(maxShootAuto);
 
     }
 

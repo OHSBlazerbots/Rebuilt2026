@@ -20,6 +20,7 @@ public class shootCommand extends Command {
         m_Swerve = swerve;
         shooterspeed = shooterVelocity;
 
+
         addRequirements(m_Shooter, m_Feeder, m_Swerve);
     }
 
@@ -30,6 +31,7 @@ public class shootCommand extends Command {
 
         m_Shooter.setShooterVelocity(shooterspeed);
         m_Shooter.startAngleMaker();
+        System.out.println("Shoot Command Initialized");
     }
 
     @Override
@@ -39,6 +41,7 @@ public class shootCommand extends Command {
             m_Shooter.startKicker();
             m_Feeder.startRoller();
         }
+        System.out.println("Shoot command executed");
     }
 
     @Override

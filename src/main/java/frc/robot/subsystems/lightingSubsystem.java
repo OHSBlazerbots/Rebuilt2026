@@ -11,11 +11,11 @@ public class lightingSubsystem extends SubsystemBase {
     AddressableLEDBuffer m_ledBuffer;
     private int rainbowPixelHue = 0;
 
-    public lightingSubsystem() {
-        m_led = new AddressableLED(0);
+    public lightingSubsystem(int port) {
+        m_led = new AddressableLED(port);
         m_ledBuffer = new AddressableLEDBuffer(300);
         m_led.setLength(m_ledBuffer.getLength());
-        
+
         m_led.setData(m_ledBuffer);
         m_led.start();
         // this.setPink();
@@ -42,13 +42,13 @@ public class lightingSubsystem extends SubsystemBase {
         m_led.setData(m_ledBuffer);
     }
 
-     public void rainbow() {
+    public void rainbow() {
         for (int i = 0; i < m_ledBuffer.getLength(); i++) {
             final int hue = (rainbowPixelHue + (i * 180 / m_ledBuffer.getLength())) % 180;
             m_ledBuffer.setHSV(i, hue, 255, 128);
         }
 
         rainbowPixelHue += 3;
-        rainbowPixelHue %= 180; 
+        rainbowPixelHue %= 180;
     }
 }
