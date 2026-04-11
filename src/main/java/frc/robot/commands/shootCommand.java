@@ -17,9 +17,9 @@ public class shootCommand extends Command {
     public shootCommand(ShooterSubsystem shooter, FeederSubsystem feeder, SwerveSubsystem swerve, int shooterVelocity) {
         m_Shooter = shooter;
         m_Feeder = feeder;
+
         m_Swerve = swerve;
         shooterspeed = shooterVelocity;
-
 
         addRequirements(m_Shooter, m_Feeder, m_Swerve);
     }
@@ -29,16 +29,18 @@ public class shootCommand extends Command {
         timer.reset();
         timer.start();
 
-        m_Shooter.setShooterVelocity(shooterspeed);
-        m_Shooter.startAngleMaker();
+        m_Shooter.setShooterVelocity(-shooterspeed);
+        m_Shooter.backwardAngleMaker();
+        // m_Shooter.startKicker();
+        // m_Feeder.startRoller();
         System.out.println("Shoot Command Initialized");
     }
 
     @Override
     public void execute() {
 
-        if (m_Shooter.isAtSetpoint(6500)) {
-            m_Shooter.startKicker();
+        if (timer.get() > 2) {
+            m_Shooter.reverseKicker();
             m_Feeder.startRoller();
         }
         System.out.println("Shoot command executed");

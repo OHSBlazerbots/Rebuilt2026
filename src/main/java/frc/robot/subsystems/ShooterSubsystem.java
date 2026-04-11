@@ -251,10 +251,11 @@ public class ShooterSubsystem extends SubsystemBase {
         }
 
         public boolean isAtSetpoint(double shooterTarget) {
-                return (Math.abs(shooterLeftEncoder.getVelocity() - shooterTarget) <= ShooterConstants.rpmTolerance
-                                &&
-                                Math.abs(angleMakerEncoder.getVelocity()
-                                                - ShooterConstants.angleRPM) <= ShooterConstants.rpmTolerance);
+                // system.out.println(s)
+                return (Math.abs(shooterLeftEncoder.getVelocity() - shooterTarget) <= ShooterConstants.rpmTolerance);
+                                // &&
+                                // Math.abs(angleMakerEncoder.getVelocity()
+                                //                 - ShooterConstants.angleRPM) <= ShooterConstants.rpmTolerance);
         }
 
 }
