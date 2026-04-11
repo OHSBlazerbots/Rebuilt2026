@@ -145,10 +145,7 @@ public class RobotContainer {
         intake = new intakeCommand(m_IntakeSubsystem);
 
         maxShootAutoWithTimeout = new shootCommand(m_ShooterSubsystem, feeder, drivebase, ShooterConstants.trenchRPM).withTimeout(20);
-        rightAndShoot = drivebase.getAutonomousCommand("Right and Shoot");
-        leftAndShoot = drivebase.getAutonomousCommand("Left and Shoot");
-        justShoot = drivebase.getAutonomousCommand("Shoot");
-
+        
         NamedCommands.registerCommand("Shoot Auto", new ScheduleCommand(maxShootAuto));
 
         NamedCommands.registerCommand("Intake down",Commands.runOnce(()-> m_IntakeSubsystem.pivotOut()));
@@ -161,6 +158,9 @@ public class RobotContainer {
         DriverStation.silenceJoystickConnectionWarning(true);
 
     
+        rightAndShoot = drivebase.getAutonomousCommand("Right and Shoot");
+        leftAndShoot = drivebase.getAutonomousCommand("Left and Shoot");
+        justShoot = drivebase.getAutonomousCommand("Shoot");
 
         // Set the default auto (do nothing)
         autoChooser.setDefaultOption("Do Nothing", Commands.runOnce(drivebase::zeroGyroWithAlliance)

@@ -15,12 +15,6 @@
           "data": {
             "name": "Shoot Auto"
           }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": null
-          }
         }
       ]
     }
