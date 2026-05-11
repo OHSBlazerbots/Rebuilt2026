@@ -1,7 +1,6 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -16,11 +15,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class lightTest {
-    lightingSubsystem light;
+  lightingSubsystem light;
+
   @BeforeEach // this method will run before each test
   void setup() {
     assert HAL.initialize(500, 0); // initialize the HAL, crash if failed
-    light = new lightingSubsystem();
+    light = new lightingSubsystem(0);
 
   }
 
@@ -28,6 +28,5 @@ public class lightTest {
   void initializationTest() {
     assertNotNull(light);
   }
-   
 
 }

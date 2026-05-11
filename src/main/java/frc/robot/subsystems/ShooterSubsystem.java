@@ -37,6 +37,9 @@ public class ShooterSubsystem extends SubsystemBase {
         private SparkFlexConfig angleMakerConfig = new SparkFlexConfig();
 
         private SparkClosedLoopController shooterLeftController = shooterLeftMotor.getClosedLoopController();
+        private SparkClosedLoopController shooterRightController = shooterRightMotor.getClosedLoopController();
+        private SparkClosedLoopController shooterMiddleController = shooterMiddleMotor.getClosedLoopController();
+
         private SparkClosedLoopController kickerController = kickerMotor.getClosedLoopController();
         private SparkClosedLoopController angleMakerController = angleMakerMotor.getClosedLoopController();
 
@@ -59,7 +62,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
         public ShooterSubsystem() {
                 shooterConfig.inverted(false).idleMode(IdleMode.kCoast);
-                kickerConfig.inverted(false).idleMode(IdleMode.kCoast);
+                kickerConfig.inverted(true).idleMode(IdleMode.kCoast);
                 angleMakerConfig.inverted(false).idleMode(IdleMode.kCoast);
 
                 shooterConfig.encoder.positionConversionFactor(1).velocityConversionFactor(1);
@@ -72,16 +75,15 @@ public class ShooterSubsystem extends SubsystemBase {
                                 .p(0.0001, ClosedLoopSlot.kSlot1)
                                 .i(0, ClosedLoopSlot.kSlot1)
                                 .d(0, ClosedLoopSlot.kSlot1).feedForward
-                                .kS(0, ClosedLoopSlot.kSlot1)
+                                // .kS(0, ClosedLoopSlot.kSlot1)
                                 .kV(1 / 5767, ClosedLoopSlot.kSlot1);
-
                 angleMakerConfig.closedLoop
                                 .outputRange(-1, 1, ClosedLoopSlot.kSlot1)
                                 .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                                 .p(0.0001, ClosedLoopSlot.kSlot1)
                                 .i(0, ClosedLoopSlot.kSlot1)
                                 .d(0, ClosedLoopSlot.kSlot1).feedForward
-                                .kS(0, ClosedLoopSlot.kSlot1)
+                                // .kS(0, ClosedLoopSlot.kSlot1)
                                 .kV(1 / 5767, ClosedLoopSlot.kSlot1);
                 kickerConfig.closedLoop
                                 .outputRange(-1, 1, ClosedLoopSlot.kSlot1)
@@ -89,7 +91,7 @@ public class ShooterSubsystem extends SubsystemBase {
                                 .p(0.0001, ClosedLoopSlot.kSlot1)
                                 .i(0, ClosedLoopSlot.kSlot1)
                                 .d(0, ClosedLoopSlot.kSlot1).feedForward
-                                .kS(0, ClosedLoopSlot.kSlot1)
+                                // .kS(0, ClosedLoopSlot.kSlot1)
                                 .kV(1 / 5767, ClosedLoopSlot.kSlot1);
 
 
@@ -101,10 +103,8 @@ public class ShooterSubsystem extends SubsystemBase {
                                 .apply(shooterConfig);              
 
                 shooterLeftMotor.configure(leftConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-                shooterMiddleMotor.configure(middleConfig, ResetMode.kResetSafeParameters,
-                                PersistMode.kPersistParameters);
-                shooterRightMotor.configure(rightConfig, ResetMode.kResetSafeParameters,
-                                PersistMode.kPersistParameters);
+                shooterMiddleMotor.configure(middleConfig, ResetMode.kResetSafeParameters,PersistMode.kPersistParameters);
+                shooterRightMotor.configure(rightConfig, ResetMode.kResetSafeParameters,PersistMode.kPersistParameters);
                 kickerMotor.configure(kickerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
                 angleMakerMotor.configure(angleMakerConfig, ResetMode.kResetSafeParameters,
                                 PersistMode.kPersistParameters);
@@ -147,6 +147,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
         public void setShooterVelocity(double targetShooterVelocity) {
                 shooterLeftController.setSetpoint(targetShooterVelocity, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
+                shooterMiddleController.setSetpoint(targetShooterVelocity, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
+                shooterRightController.setSetpoint(-targetShooterVelocity, ControlType.kVelocity, ClosedLoopSlot.kSlot1);
 
         }
 
@@ -160,6 +162,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
         public void stopShooter() {
                 shooterLeftMotor.stopMotor();
+                shooterRightMotor.stopMotor();
+                shooterMiddleMotor.stopMotor();
                 angleMakerMotor.stopMotor();
 
         }
@@ -169,17 +173,28 @@ public class ShooterSubsystem extends SubsystemBase {
                 setAngleMakerVelocity(ShooterConstants.angleRPM);
         }
 
+        public void trenchShotReversed() {
+                setShooterVelocity(-ShooterConstants.trenchRPM);
+                setAngleMakerVelocity(-ShooterConstants.angleRPM);
+        }
+
         public void closeShot() {
-                setShooterVelocity(ShooterConstants.hubRPM);
+                setShooterVelocity(ShooterConstants.closeRPM);
                 setAngleMakerVelocity(ShooterConstants.angleRPM);
         }
 
-        public void startShooter() {
-                setShooterVelocity(ShooterConstants.fullPower);
+        public void closeShotReversed() {
+                setShooterVelocity(-ShooterConstants.closeRPM);
+                setAngleMakerVelocity(-ShooterConstants.angleRPM);
         }
 
-        public void runBackwards() {
-                setShooterVelocity(-ShooterConstants.fullPower);
+
+        public void startKicker(){
+                setKickerVelocity(ShooterConstants.kickerRPM);
+        }
+
+         public void reverseKicker(){
+                setKickerVelocity(-ShooterConstants.kickerRPM);
         }
 
         public void stopKicker() {
@@ -188,6 +203,10 @@ public class ShooterSubsystem extends SubsystemBase {
 
         public void startAngleMaker() {
                 setAngleMakerVelocity(ShooterConstants.angleRPM);
+        }
+
+        public void backwardAngleMaker() {
+                setAngleMakerVelocity(-ShooterConstants.angleRPM);
         }
 
         // Set the position of the linear servo

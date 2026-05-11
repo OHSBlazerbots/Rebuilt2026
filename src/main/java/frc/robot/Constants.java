@@ -23,35 +23,29 @@ import swervelib.math.Matter;
 public final class Constants {
 
   public static final double ROBOT_MASS = (148 - 20.3) * 0.453592; // 32lbs * kg per pound
-  public static final Matter CHASSIS    = new Matter(new Translation3d(0, 0, Units.inchesToMeters(8)), ROBOT_MASS);
-  public static final double LOOP_TIME  = 0.13; //s, 20ms + 110ms sprk max velocity lag
-  public static final double MAX_SPEED  = Units.feetToMeters(17.49);
-  
+  public static final Matter CHASSIS = new Matter(new Translation3d(0, 0, Units.inchesToMeters(8)), ROBOT_MASS);
+  public static final double LOOP_TIME = 0.13; // s, 20ms + 110ms sprk max velocity lag
+  public static final double MAX_SPEED = Units.feetToMeters(17.49);
+
   // Maximum speed of the robot in meters per second, used to limit acceleration.
 
-  // public static final class AutonConstants
-  // {
-  //
-  // public static final PIDConstants TRANSLATION_PID = new PIDConstants(0.7, 0,
-  // 0);
-  // public static final PIDConstants ANGLE_PID = new PIDConstants(0.4, 0, 0.01);
-  // }
+  
 
   public static final class DrivebaseConstants {
-
-    // Hold time on motor brakes when disabled
     public static final double WHEEL_LOCK_TIME = 10; // seconds
   }
 
   public static final class ClimbingConstants {
-     public static final int kRightClimbingMotorPort = 20;
-     public static final int kLeftClimbingMotorPort = 67;
-     public static final int kForwardSoftLimitRotations = 78;
-     public static final int kReverseSoftLimitRotations = 0;
-     public static final int maxClimbingHeight = 78;
+    public static final int kRightClimbingMotorPort = 20;
+    public static final int kLeftClimbingMotorPort = 67;
+    public static final int kForwardSoftLimitRotations = 78;
+    public static final int kReverseSoftLimitRotations = 0;
+    public static final int maxClimbingHeight = 78;
   }
-  public static final class FeederConstants{
+
+  public static final class FeederConstants {
     public static final int primaryCanID = 12;
+    public static final int feederRPM = 2500;
   }
 
   public static final class ShooterConstants {
@@ -59,11 +53,12 @@ public final class Constants {
     public static final int kShooterLeftMotorPort = 14;
     public static final int kShooterRightMotorPort = 15;
     public static final int kShooterMiddleMotorPort = 16;
-    public static final int kAngleMakerPort= 9;
-    public static final int fullPower = 3000;
-    public static final int trenchRPM = 6534;
-    public static final int hubRPM = 6011;
-    public static final int angleRPM = 6534;
+    public static final int kAngleMakerPort = 9;
+
+    public static final int trenchRPM = 6784;
+    public static final int closeRPM = 6011;
+    public static final int angleRPM = 6784;
+    public static final int kickerRPM = 6000;
     public static final int rpmTolerance = 163;
     public static final double firingDuration = 0.3;
   }
@@ -76,12 +71,13 @@ public final class Constants {
     public static final double RIGHT_X_DEADBAND = 0.1;
     public static final double TURN_CONSTANT = 6;
   }
-  public static class IntakeConstants{
-    public static final int pivotCanID =11;
-    public static final int rollerCanID= 13;
+
+  public static class IntakeConstants {
+    public static final int pivotCanID = 11;
+    public static final int rollerCanID = 13;
     public static final int secondaryPivotCanID = 10;
-    public static final double pivotForwardSoftLimitRotations = 13.38;
+    public static final double pivotForwardSoftLimitRotations = 0.65;
     public static final double pivotReverseSoftLimitRotations = 0;
-    public static final double maxRollerSpeed= 2000;
+    public static final double maxRollerSpeed = 3500;
   }
 }
