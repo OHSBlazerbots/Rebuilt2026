@@ -45,13 +45,12 @@ import swervelib.SwerveInputStream;
  * trigger mappings) should be declared here.
  */
 public class RobotContainer {
-    // private final CommandXboxController m_DrivController;
+    // Controller are defined here
     final CommandXboxController driverXbox = new CommandXboxController(0);
     final CommandXboxController codriverXbox = new CommandXboxController(1);
 
-    private final IntakeSubsystem m_IntakeSubsystem;
-
     // The robot's subsystems and commands are defined here...
+    private final IntakeSubsystem m_IntakeSubsystem;
     private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
             "swerve/neo"));
     // private final ClimbingSubsystem m_ClimbingSubsystem;
@@ -133,21 +132,20 @@ public class RobotContainer {
      */
     public RobotContainer() {
         m_ShooterSubsystem = new ShooterSubsystem();
-
         m_IntakeSubsystem = new IntakeSubsystem();
         // m_ClimbingSubsystem = new ClimbingSubsystem();
         m_DriverCameraSubsystem = new DriverCameraSubsystem();
         feeder = new FeederSubsystem();
          m_LightingSubsystem = new lightingSubsystem(0);
         //  m_LightingSubsystem2 = new lightingSubsystem(1);
+
         // Configure the trigger bindings
+        // make sure all the namedcommands are b4 the configurebindings
         maxShootAuto = new shootCommand(m_ShooterSubsystem, feeder, drivebase, ShooterConstants.trenchRPM);
         intake = new intakeCommand(m_IntakeSubsystem);
-
         maxShootAutoWithTimeout = new shootCommand(m_ShooterSubsystem, feeder, drivebase, ShooterConstants.trenchRPM).withTimeout(20);
         
         NamedCommands.registerCommand("Shoot Auto", new ScheduleCommand(maxShootAuto));
-
         NamedCommands.registerCommand("Intake down",Commands.runOnce(()-> m_IntakeSubsystem.pivotOut()));
         NamedCommands.registerCommand("Rollers move in", Commands.runOnce(()-> m_IntakeSubsystem.rollersIn()));
         NamedCommands.registerCommand("kicker",Commands.runOnce(() -> m_ShooterSubsystem.startKicker()));
@@ -170,6 +168,8 @@ public class RobotContainer {
         // stop
         autoChooser.addOption("Drive Forward", Commands.runOnce(drivebase::zeroGyroWithAlliance).withTimeout(.2)
                 .andThen(drivebase.driveForward().withTimeout(1)));
+        
+        
         autoChooser.addOption("Right and Shoot", rightAndShoot);
         autoChooser.addOption("Left and Shoot", leftAndShoot);
         autoChooser.addOption("Shoot", justShoot);
@@ -246,7 +246,7 @@ public class RobotContainer {
             driverXbox.leftBumper().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
             driverXbox.rightBumper().onTrue(Commands.none());
         }
-
+        //configure all the buttons
         //shooter and anglemaker
         codriverXbox.leftTrigger()
                 .onTrue(Commands.runOnce(() -> m_ShooterSubsystem.stopShooter()));
