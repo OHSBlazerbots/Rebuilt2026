@@ -144,9 +144,9 @@ public class RobotContainer {
         maxShootAuto = new shootCommand(m_ShooterSubsystem, feeder, drivebase, ShooterConstants.trenchRPM);
         intake = new intakeCommand(m_IntakeSubsystem);
 
-        maxShootAutoWithTimeout = new shootCommand(m_ShooterSubsystem, feeder, drivebase, ShooterConstants.trenchRPM).withTimeout(20);
+        maxShootAutoWithTimeout = new shootCommand(m_ShooterSubsystem, feeder, drivebase, ShooterConstants.trenchRPM).withTimeout(17);
         
-        NamedCommands.registerCommand("Shoot Auto", new ScheduleCommand(maxShootAuto));
+        NamedCommands.registerCommand("Shoot Auto", new ScheduleCommand(maxShootAutoWithTimeout));
 
         NamedCommands.registerCommand("Intake down",Commands.runOnce(()-> m_IntakeSubsystem.pivotOut()));
         NamedCommands.registerCommand("Rollers move in", Commands.runOnce(()-> m_IntakeSubsystem.rollersIn()));
