@@ -29,13 +29,7 @@ public final class Constants {
 
   // Maximum speed of the robot in meters per second, used to limit acceleration.
 
-  // public static final class AutonConstants
-  // {
-  //
-  // public static final PIDConstants TRANSLATION_PID = new PIDConstants(0.7, 0,
-  // 0);
-  // public static final PIDConstants ANGLE_PID = new PIDConstants(0.4, 0, 0.01);
-  // }
+  
 
   public static final class DrivebaseConstants {
     public static final double WHEEL_LOCK_TIME = 10; // seconds
